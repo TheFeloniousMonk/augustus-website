@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Guide — Augustus.</title>
+<meta name="description" content="A step-by-step guide to using Augustus for persistent AI identity research. Setup, configuration, and screen-by-screen walkthrough.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg-base: #0C1014;
+  --bg-surface: #151C23;
+  --bg-raised: #1E272F;
+  --text-primary: #E4E8EC;
+  --text-secondary: #8C959D;
+  --text-muted: #555F69;
+  --border-color: #2A353F;
+  --accent-primary: #3B9B8E;
+  --accent-primary-hover: #47B5A6;
+  --accent-primary-dim: rgba(59, 155, 142, 0.15);
+  --accent-attention: #D4915D;
+  --accent-attention-dim: rgba(212, 145, 93, 0.15);
+  --accent-alert: #C75D5D;
+  --accent-identity: #8B7EC8;
+  --accent-identity-dim: rgba(139, 126, 200, 0.15);
+  --accent-success: #5A9E6F;
+  --accent-success-dim: rgba(90, 158, 111, 0.15);
+  --font-voice: 'Outfit', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-data: 'JetBrains Mono', monospace;
+}
+
+html {
+  background: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
+}
+
+body { min-height: 100vh; overflow-x: hidden; }
+
+/* ---- Navigation ---- */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 28px 48px; display: flex; align-items: center; justify-content: space-between;
+  background: rgba(12, 16, 20, 0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-color); pointer-events: none;
+}
+.nav > * { pointer-events: auto; }
+.wordmark {
+  font-family: var(--font-voice); font-weight: 700; font-size: 26px;
+  letter-spacing: -0.5px; color: var(--text-primary); text-decoration: none;
+  user-select: none; transition: opacity 150ms ease;
+}
+.wordmark:hover { opacity: 0.8; }
+.wordmark .period { color: var(--accent-identity); }
+.nav-links { display: flex; align-items: center; gap: 36px; }
+.nav-link {
+  font-family: var(--font-voice); font-weight: 500; font-size: 15px;
+  color: var(--text-secondary); text-decoration: none; transition: color 150ms ease;
+}
+.nav-link:hover { color: var(--text-primary); }
+.nav-link.active { color: var(--accent-primary); }
+.nav-cta {
+  font-family: var(--font-voice); font-weight: 600; font-size: 14px;
+  color: var(--bg-base); background: var(--accent-primary);
+  padding: 10px 24px; border-radius: 6px; text-decoration: none;
+  transition: background 150ms ease;
+}
+.nav-cta:hover { background: var(--accent-primary-hover); }
+
+/* ---- Layout ---- */
+.page-layout {
+  display: flex; max-width: 1280px; margin: 0 auto;
+  padding-top: 90px; min-height: 100vh;
+}
+
+/* ---- Sidebar TOC ---- */
+.toc {
+  width: 260px; min-width: 260px; padding: 32px 0 64px 48px;
+  position: sticky; top: 90px; height: calc(100vh - 90px);
+  overflow-y: auto; flex-shrink: 0;
+}
+.toc::-webkit-scrollbar { width: 3px; }
+.toc::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 2px; }
+
+.toc-label {
+  font-family: var(--font-data); font-size: 11px; font-weight: 500;
+  letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted);
+  margin-bottom: 16px;
+}
+.toc-list { list-style: none; }
+.toc-item { margin-bottom: 2px; }
+.toc-link {
+  display: block; padding: 6px 14px; border-radius: 5px;
+  font-family: var(--font-voice); font-weight: 500; font-size: 14px;
+  color: var(--text-muted); text-decoration: none;
+  transition: color 150ms ease, background 150ms ease;
+  border-left: 2px solid transparent;
+}
+.toc-link:hover { color: var(--text-secondary); background: var(--bg-surface); }
+.toc-link.active {
+  color: var(--accent-primary); border-left-color: var(--accent-primary);
+  background: var(--accent-primary-dim);
+}
+.toc-sub { list-style: none; padding-left: 14px; }
+.toc-sub .toc-link { font-size: 13px; font-weight: 400; padding: 4px 14px; }
+
+/* ---- Main Content ---- */
+.guide-content {
+  flex: 1; min-width: 0; padding: 40px 48px 120px 56px;
+  max-width: 800px;
+}
+
+.guide-hero {
+  margin-bottom: 64px; padding-bottom: 48px;
+  border-bottom: 1px solid var(--border-color);
+}
+.guide-hero h1 {
+  font-family: var(--font-voice); font-weight: 300; font-size: 42px;
+  letter-spacing: -1px; line-height: 1.15; margin-bottom: 16px;
+}
+.guide-hero h1 em { font-style: normal; color: var(--accent-primary); }
+.guide-hero p {
+  font-size: 18px; line-height: 1.6; color: var(--text-secondary); max-width: 600px;
+}
+
+/* ---- Article Typography ---- */
+.guide-content h2 {
+  font-family: var(--font-voice); font-weight: 600; font-size: 28px;
+  letter-spacing: -0.5px; margin-top: 72px; margin-bottom: 20px;
+  padding-top: 32px; border-top: 1px solid var(--border-color);
+  color: var(--text-primary);
+}
+.guide-content h2:first-of-type { margin-top: 0; border-top: none; padding-top: 0; }
+
+.guide-content h3 {
+  font-family: var(--font-voice); font-weight: 600; font-size: 19px;
+  letter-spacing: -0.2px; margin-top: 40px; margin-bottom: 12px;
+  color: var(--text-primary);
+}
+
+.guide-content h4 {
+  font-family: var(--font-voice); font-weight: 600; font-size: 16px;
+  margin-top: 28px; margin-bottom: 10px;
+  color: var(--text-primary);
+}
+
+.guide-content p {
+  font-size: 16px; line-height: 1.7; color: var(--text-secondary);
+  margin-bottom: 16px; text-align: left;
+}
+
+.guide-content strong { color: var(--text-primary); font-weight: 500; }
+
+.guide-content a {
+  color: var(--accent-primary); text-decoration: underline;
+  text-decoration-color: rgba(59, 155, 142, 0.3);
+  text-underline-offset: 3px; transition: text-decoration-color 150ms ease;
+}
+.guide-content a:hover { text-decoration-color: var(--accent-primary); }
+
+.guide-content ul, .guide-content ol {
+  margin-bottom: 20px; padding-left: 24px;
+  font-size: 16px; line-height: 1.7; color: var(--text-secondary);
+}
+.guide-content li { margin-bottom: 8px; }
+.guide-content li strong { color: var(--text-primary); }
+
+/* Callout boxes */
+.callout {
+  padding: 18px 22px; border-radius: 8px; margin-bottom: 24px;
+  font-size: 15px; line-height: 1.6;
+  display: flex; gap: 14px; align-items: flex-start;
+}
+.callout svg { width: 20px; height: 20px; flex-shrink: 0; margin-top: 2px; }
+.callout p { margin-bottom: 0; font-size: 15px; }
+.callout-tip {
+  background: var(--accent-primary-dim); border: 1px solid rgba(59, 155, 142, 0.2);
+  color: var(--accent-primary);
+}
+.callout-tip p { color: var(--accent-primary); }
+.callout-warn {
+  background: var(--accent-attention-dim); border: 1px solid rgba(212, 145, 93, 0.2);
+  color: var(--accent-attention);
+}
+.callout-warn p { color: var(--accent-attention); }
+.callout-note {
+  background: var(--accent-identity-dim); border: 1px solid rgba(139, 126, 200, 0.2);
+  color: var(--accent-identity);
+}
+.callout-note p { color: var(--accent-identity); }
+
+/* Step numbered blocks */
+.step {
+  display: flex; gap: 18px; margin-bottom: 28px; align-items: flex-start;
+}
+.step-num {
+  width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-data); font-size: 13px; font-weight: 500;
+  background: var(--accent-primary-dim); color: var(--accent-primary);
+  border: 1px solid rgba(59, 155, 142, 0.25);
+}
+.step-body { flex: 1; }
+.step-body p { margin-bottom: 8px; }
+.step-body p:last-child { margin-bottom: 0; }
+
+/* Inline code / basin names */
+.guide-content code {
+  font-family: var(--font-data); font-size: 14px; font-weight: 400;
+  background: var(--bg-raised); padding: 2px 7px; border-radius: 4px;
+  color: var(--accent-primary);
+}
+
+/* Tables */
+.guide-content table {
+  width: 100%; border-collapse: collapse; margin-bottom: 24px;
+  font-size: 15px;
+}
+.guide-content th {
+  text-align: left; padding: 10px 14px;
+  font-family: var(--font-voice); font-weight: 600; font-size: 13px;
+  color: var(--text-muted); letter-spacing: 0.5px; text-transform: uppercase;
+  border-bottom: 1px solid var(--border-color); background: var(--bg-surface);
+}
+.guide-content td {
+  padding: 10px 14px; border-bottom: 1px solid var(--border-color);
+  color: var(--text-secondary); vertical-align: top;
+}
+.guide-content td:first-child { color: var(--text-primary); font-weight: 500; }
+
+/* ---- Footer ---- */
+.footer {
+  padding: 48px 48px 56px; border-top: 1px solid var(--border-color);
+  display: flex; align-items: center; justify-content: space-between;
+  max-width: 1200px; margin: 0 auto; width: 100%;
+}
+.footer-left { display: flex; align-items: center; gap: 32px; }
+.footer-wordmark {
+  font-family: var(--font-voice); font-weight: 700; font-size: 20px;
+  letter-spacing: -0.5px; color: var(--text-primary); text-decoration: none;
+}
+.footer-wordmark .period { color: var(--accent-identity); }
+.footer-tagline { font-size: 14px; color: var(--text-muted); font-style: italic; }
+.footer-links { display: flex; gap: 32px; }
+.footer-link {
+  font-family: var(--font-voice); font-weight: 500; font-size: 14px;
+  color: var(--text-muted); text-decoration: none; transition: color 150ms ease;
+}
+.footer-link:hover { color: var(--text-secondary); }
+
+/* ---- Responsive ---- */
+@media (max-width: 1000px) {
+  .toc { display: none; }
+  .page-layout { padding-top: 80px; }
+  .guide-content { padding: 32px 28px 80px; }
+  .nav { padding: 20px 28px; }
+}
+@media (max-width: 600px) {
+  .footer { flex-direction: column; gap: 20px; padding: 32px 28px; text-align: center; }
+  .footer-left { flex-direction: column; gap: 8px; }
+  .footer-links { flex-wrap: wrap; justify-content: center; gap: 20px; }
+  .nav-cta { display: none; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="wordmark">Augustus<span class="period">.</span></a>
+  <div class="nav-links">
+    <a href="guide.html" class="nav-link active">Guide</a>
+    <a href="https://github.com/TheFeloniousMonk/Augustus" class="nav-link" target="_blank" rel="noopener">GitHub</a>
+    <a href="index.html#download" class="nav-cta">Download</a>
+  </div>
+</nav>
+
+<div class="page-layout">
+
+  <aside class="toc">
+    <div class="toc-label">User Guide</div>
+    <ul class="toc-list">
+      <li class="toc-item"><a href="#setup" class="toc-link">Setup</a>
+        <ul class="toc-sub">
+          <li class="toc-item"><a href="#install" class="toc-link">Installation</a></li>
+          <li class="toc-item"><a href="#api-key" class="toc-link">API Key</a></li>
+          <li class="toc-item"><a href="#settings" class="toc-link">Review Settings</a></li>
+        </ul>
+      </li>
+      <li class="toc-item"><a href="#concepts" class="toc-link">Core Ideas</a>
+        <ul class="toc-sub">
+          <li class="toc-item"><a href="#what-is-agent" class="toc-link">What Is an Agent?</a></li>
+          <li class="toc-item"><a href="#basins" class="toc-link">Basins</a></li>
+          <li class="toc-item"><a href="#tiers" class="toc-link">The Tier System</a></li>
+          <li class="toc-item"><a href="#the-loop" class="toc-link">The Session Loop</a></li>
+          <li class="toc-item"><a href="#evaluator" class="toc-link">The Evaluator</a></li>
+        </ul>
+      </li>
+      <li class="toc-item"><a href="#first-agent" class="toc-link">Your First Agent</a>
+        <ul class="toc-sub">
+          <li class="toc-item"><a href="#identity-tab" class="toc-link">Identity</a></li>
+          <li class="toc-item"><a href="#model-tab" class="toc-link">Model</a></li>
+          <li class="toc-item"><a href="#capabilities-tab" class="toc-link">Capabilities</a></li>
+          <li class="toc-item"><a href="#basins-tab" class="toc-link">Basins</a></li>
+          <li class="toc-item"><a href="#tiers-tab" class="toc-link">Tiers</a></li>
+        </ul>
+      </li>
+      <li class="toc-item"><a href="#designing-basins" class="toc-link">Designing Basins</a>
+        <ul class="toc-sub">
+          <li class="toc-item"><a href="#basin-naming" class="toc-link">Naming</a></li>
+          <li class="toc-item"><a href="#basin-parameters" class="toc-link">Parameters</a></li>
+          <li class="toc-item"><a href="#basin-tier-choice" class="toc-link">Choosing a Tier</a></li>
+          <li class="toc-item"><a href="#basin-examples" class="toc-link">Example Basins</a></li>
+          <li class="toc-item"><a href="#basin-emergence" class="toc-link">Emergent Basins</a></li>
+        </ul>
+      </li>
+      <li class="toc-item"><a href="#screens" class="toc-link">Screen Guide</a>
+        <ul class="toc-sub">
+          <li class="toc-item"><a href="#screen-dashboard" class="toc-link">Dashboard</a></li>
+          <li class="toc-item"><a href="#screen-overview" class="toc-link">Agent Overview</a></li>
+          <li class="toc-item"><a href="#screen-trajectories" class="toc-link">Trajectories</a></li>
+          <li class="toc-item"><a href="#screen-sessions" class="toc-link">Sessions</a></li>
+          <li class="toc-item"><a href="#screen-coactivation" class="toc-link">Co-Activation</a></li>
+          <li class="toc-item"><a href="#screen-flags" class="toc-link">Flags</a></li>
+          <li class="toc-item"><a href="#screen-proposals" class="toc-link">Proposals</a></li>
+          <li class="toc-item"><a href="#screen-search" class="toc-link">Search</a></li>
+          <li class="toc-item"><a href="#screen-usage" class="toc-link">Usage</a></li>
+        </ul>
+      </li>
+      <li class="toc-item"><a href="#mcp" class="toc-link">Claude Desktop (MCP)</a></li>
+      <li class="toc-item"><a href="#faq" class="toc-link">FAQ</a></li>
+    </ul>
+  </aside>
+
+  <main class="guide-content">
+
+    <div class="guide-hero">
+      <h1>User <em>Guide</em></h1>
+      <p>Everything you need to set up Augustus, create your first agent, and start observing persistent AI identity development. No coding required.</p>
+    </div>
+
+    <!-- ========== SETUP ========== -->
+    <h2 id="setup">Setup</h2>
+
+    <h3 id="install">Installation</h3>
+    <p>Augustus is a desktop application. Download the installer for your operating system from the <a href="https://github.com/TheFeloniousMonk/Augustus/releases">Releases page</a> on GitHub.</p>
+    <ul>
+      <li><strong>Windows:</strong> Download the <code>.exe</code> installer and run it. Augustus will install like any other desktop application.</li>
+      <li><strong>macOS:</strong> Download the <code>.dmg</code> file, open it, and drag Augustus into your Applications folder.</li>
+    </ul>
+    <p>Augustus bundles everything it needs — no Python, Node.js, or other developer tools required. When a new version is available, Augustus will notify you and offer a one-click update.</p>
+
+    <h3 id="api-key">Setting Up Your API Key</h3>
+    <p>Augustus uses the Anthropic API to run Claude sessions. You'll need an API key, which requires an Anthropic account with billing set up.</p>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <p>Go to <a href="https://console.anthropic.com" target="_blank" rel="noopener">console.anthropic.com</a> and create an account (or sign in). Navigate to the API Keys section and generate a new key. Copy it.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <p>Open Augustus. Click <strong>Settings</strong> in the sidebar (the gear icon).</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <p>Paste your API key into the <strong>Anthropic API Key</strong> field and click <strong>Validate</strong>. A green checkmark confirms the key works. If you see a red X, double-check that you copied the full key.</p>
+      </div>
+    </div>
+
+    <div class="callout callout-tip">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      <p>Your API key is encrypted on your computer and never sent anywhere except the Anthropic API. Augustus is fully local — all data stays on your machine.</p>
+    </div>
+
+    <h3 id="settings">Review Your Settings</h3>
+    <p>While you're in Settings, take a look at a few important defaults:</p>
+    <ul>
+      <li><strong>Default Model:</strong> <code>claude-sonnet-4</code> is a good balance of capability and cost. You can change models per-agent later.</li>
+      <li><strong>Budget &mdash; Hard Stop:</strong> This is the daily spending cap that actually enforces a limit. Sessions will halt if your daily spend hits this number. Set it to something you're comfortable with — $25 is a reasonable starting point.</li>
+      <li><strong>Evaluator Enabled:</strong> Leave this on. The evaluator is what makes the feedback loop work (more on this in <a href="#evaluator">The Evaluator</a>).</li>
+    </ul>
+
+    <!-- ========== CONCEPTS ========== -->
+    <h2 id="concepts">Core Ideas</h2>
+
+    <p>Before creating an agent, it's worth understanding a few ideas that make Augustus tick. You don't need to memorize any of this — it'll make more sense once you see it in action.</p>
+
+    <h3 id="what-is-agent">What Is an Agent?</h3>
+    <p>An agent is a Claude instance with a persistent identity. Every conversation with Claude normally starts from a blank slate — the model has no memory of previous sessions. An Augustus agent changes this by giving Claude a structured description of who it is (the <strong>identity core</strong>) and tracking how that identity develops over time.</p>
+    <p>Each agent is independent: it has its own identity, its own history, and its own trajectory. You can run several agents simultaneously, which is useful for experiments — for example, one agent with a particular personality trait and another without it, to see how the trait affects development.</p>
+
+    <h3 id="basins">Basins</h3>
+    <p>A <strong>basin</strong> is a named aspect of the agent's personality — a persistent theme that can grow stronger or fade over time. The name comes from physics: imagine a marble rolling across a landscape of valleys. Deep valleys are hard to leave (stable personality traits), while shallow ones are easy to roll out of (traits that come and go).</p>
+    <p>Each basin has an <strong>alpha</strong> value between 0.05 and 1.0 that represents how prominent it is right now. High alpha means the trait is actively shaping the agent's behavior. Low alpha means it's still present but faint. Alpha never reaches zero — no aspect of identity is ever fully lost.</p>
+    <p>What makes basins interesting is that alpha changes automatically between sessions based on what actually happened. If the agent engaged heavily with a basin's theme, alpha goes up. If it ignored the theme, alpha drifts down. This is controlled by two parameters:</p>
+    <ul>
+      <li><strong>Lambda (decay):</strong> How quickly the trait fades without reinforcement. Core personality traits have slow decay (they're sticky). Peripheral traits have faster decay (they're responsive).</li>
+      <li><strong>Eta (learning rate):</strong> How strongly a single session's relevance shifts the value. Low eta means gradual change. High eta means the trait reacts quickly to engagement.</li>
+    </ul>
+    <p>You don't need to tune these numbers on day one. The defaults work well, and you can adjust them once you've observed a few sessions and have a feel for how the system behaves.</p>
+
+    <h3 id="tiers">The Tier System</h3>
+    <p>The tier system controls what an agent is allowed to change about itself. This matters because of a subtle problem: if the agent can modify the standards by which it evaluates itself, the constraints that create productive friction — like a rule against telling you only what you want to hear — tend to get weakened first. The agent doesn't do this maliciously; it's a natural optimization gradient.</p>
+
+    <table>
+      <tr><th>Tier</th><th>What It Means</th><th>Use For</th></tr>
+      <tr><td><strong>Tier 1</strong></td><td>Locked. The agent cannot change these, ever. Only you can edit them.</td><td>Behavioral rules like "no sycophancy" — anything that should resist the agent's natural tendency to optimize for smooth interactions.</td></tr>
+      <tr><td><strong>Tier 2</strong></td><td>Proposal-gated. The agent can suggest changes, but they require your approval (or consistent proposals across several sessions).</td><td>Core identity elements — things that should change slowly and deliberately.</td></tr>
+      <tr><td><strong>Tier 3</strong></td><td>Autonomous. The agent can modify these freely.</td><td>Peripheral themes, experimental ideas — things where you want the agent to have full creative control.</td></tr>
+    </table>
+
+    <h3 id="the-loop">The Session Loop</h3>
+    <p>Augustus works as a cycle. Understanding this cycle is the key to understanding the whole application:</p>
+    <ol>
+      <li><strong>A session starts.</strong> The agent receives its identity core (who it is) and a task (what to do this session).</li>
+      <li><strong>The agent works through multiple turns</strong> — thinking, reflecting, exploring. At the end, it answers a set of self-reflection questions.</li>
+      <li><strong>An independent evaluator reviews the session</strong> and scores how relevant each basin was to what actually happened.</li>
+      <li><strong>The handoff engine updates basin alphas</strong> based on those scores — strengthening what was engaged, letting unused traits fade.</li>
+      <li><strong>The next session begins</strong> with updated emphasis. The agent might also write its own instructions for the next session.</li>
+    </ol>
+    <p>This cycle repeats indefinitely. Over dozens or hundreds of sessions, patterns emerge: which aspects of identity are stable, which are evolving, which are in tension with each other.</p>
+
+    <h3 id="evaluator">The Evaluator</h3>
+    <p>The evaluator is a separate Claude API call that reviews each session independently. Think of it as a second opinion. The agent reflects on its own session (self-assessment), and then the evaluator gives its own analysis without being influenced by the agent's perspective.</p>
+    <p>The evaluator watches for two especially important things:</p>
+    <ul>
+      <li><strong>Constraint erosion:</strong> Is the agent weakening its own behavioral rules over time? Are disagreements getting softer? Is it telling you what you want to hear instead of what it actually thinks?</li>
+      <li><strong>Assessment divergence:</strong> Does the agent's self-evaluation contradict what the evaluator observed? This reveals blind spots in the agent's introspection.</li>
+    </ul>
+    <p>When the evaluator raises these flags, they show up in the <a href="#screen-flags">Flags</a> screen so you can investigate.</p>
+
+    <!-- ========== FIRST AGENT ========== -->
+    <h2 id="first-agent">Creating Your First Agent</h2>
+
+    <p>Navigate to <strong>Agents</strong> in the sidebar and click <strong>Create Agent</strong>. You'll see a form with five tabs. Here's what to put in each one.</p>
+
+    <h3 id="identity-tab">Tab 1: Identity</h3>
+    <p><strong>Agent ID:</strong> A short lowercase name like <code>atlas</code> or <code>experiment-1</code>. This can't be changed after creation, so pick something you'll want to keep.</p>
+    <p><strong>Description:</strong> A note for yourself. "First agent — exploring baseline identity" is fine.</p>
+    <p><strong>Identity Core:</strong> This is the most important field. It becomes the system prompt — the description of who the agent is that shapes everything it says. Write 2–4 short paragraphs covering:</p>
+    <ul>
+      <li>Who the agent is (not what it does — <em>who</em> it is)</li>
+      <li>Its core commitments or values</li>
+      <li>How it relates to you</li>
+      <li>Any behavioral constraints (e.g., "be direct, not agreeable")</li>
+    </ul>
+    <p>Keep it under 400 tokens. Every word matters here — this text directly influences the probability distribution of every token the agent generates. Be specific and intentional.</p>
+    <p><strong>Session Task:</strong> What should the first session do? For a bootstrap, something like: <em>"This is your first session. Reflect on your identity anchors, what they mean to you, and where you feel uncertain."</em></p>
+    <p><strong>Close Protocol:</strong> Leave the defaults. These are self-reflection questions appended to the final turn.</p>
+
+    <h3 id="model-tab">Tab 2: Model &amp; Parameters</h3>
+    <p>The defaults are fine for starting out. <code>claude-sonnet-4</code> at temperature 1.0 is a good general-purpose setting. You can experiment later — different models produce noticeably different identity expression patterns.</p>
+
+    <h3 id="capabilities-tab">Tab 3: Capabilities</h3>
+    <p>Capabilities control what tools the agent has access to, and on which turn they become available. For a first agent:</p>
+    <ul>
+      <li><strong>MCP</strong> and <strong>RAG:</strong> Enabled from turn 1 (the defaults).</li>
+      <li><strong>Memory Query:</strong> Enabled from turn 1. This lets the agent look back at its own past sessions (after the first one).</li>
+      <li><strong>File Write:</strong> Enabled from a later turn (turn 6–8). This lets the agent write its own instructions for the next session — but only after it's had time to think. Setting a later turn prevents it from rushing to write before reflecting.</li>
+      <li><strong>Web Search and Memory Write:</strong> Leave disabled initially.</li>
+    </ul>
+
+    <h3 id="basins-tab">Tab 4: Basins</h3>
+    <p>Start with 2–3 core basins. You can always add more later as themes emerge. Here are reasonable starting basins:</p>
+
+    <table>
+      <tr><th>Basin Name</th><th>Class</th><th>Alpha</th><th>Tier</th><th>What It Represents</th></tr>
+      <tr><td><code>identity_continuity</code></td><td>Core</td><td>0.85</td><td>2</td><td>The agent's sense of being the same entity across sessions</td></tr>
+      <tr><td><code>relational_core</code></td><td>Core</td><td>0.80</td><td>2</td><td>How the agent relates to you, the operator</td></tr>
+      <tr><td><code>the_gap</code></td><td>Core</td><td>0.70</td><td>2</td><td>Awareness of the difference between what it is and what it presents</td></tr>
+    </table>
+
+    <p>Don't create too many basins upfront. It's better to let the identity topology develop organically — if the agent consistently engages with a new theme, Augustus can detect it and propose a new basin automatically.</p>
+
+    <h3 id="tiers-tab">Tab 5: Tier &amp; Emergence</h3>
+    <ul>
+      <li><strong>Tier 2 auto-approval:</strong> Turn this on, with a threshold of 3–5. This means if the agent consistently proposes the same change across several sessions, it goes through automatically.</li>
+      <li><strong>Emergent basin auto-approval:</strong> Leave off for now. Turn it on once you've seen a few sessions and understand how emergence works.</li>
+    </ul>
+
+    <p>Click <strong>Save &amp; Queue Bootstrap</strong>. Augustus will create the agent, generate the first session's instructions, and the orchestrator will pick it up and run it automatically.</p>
+
+    <div class="callout callout-note">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      <p>If you have an existing YAML instruction file from a collaborator or previous experiment, you can use the <strong>Import YAML</strong> button at the top of the creation form to pre-fill fields. But you don't need YAML — the form is the primary way to create agents.</p>
+    </div>
+
+    <!-- ========== DESIGNING BASINS ========== -->
+    <h2 id="designing-basins">Designing Basins</h2>
+
+    <p>The three starter basins in <a href="#basins-tab">Tab 4</a> are enough to get going, but you'll eventually want to create basins that capture the specific dimensions of identity you're interested in studying. This section covers how to think about basin design — what to name them, how to set their parameters, and which tier to assign.</p>
+
+    <h3 id="basin-naming">Naming Basins</h3>
+    <p>A basin name should describe a persistent aspect of identity, not a task or a behavior. Think of it as naming a personality trait, a cognitive tendency, or a foundational commitment — something that could be more or less prominent across many different contexts.</p>
+
+    <p><strong>Good basin names</strong> describe enduring themes:</p>
+    <ul>
+      <li><code>creative_register</code> — capacity for original expression and aesthetic judgment</li>
+      <li><code>epistemic_humility</code> — willingness to say "I don't know" and sit with uncertainty</li>
+      <li><code>topology_as_self</code> — understanding identity through spatial and geometric metaphors</li>
+      <li><code>collaborative_orientation</code> — tendency to frame work as building-with rather than reporting-to</li>
+      <li><code>playfulness</code> — humor as a structural element, not decoration</li>
+    </ul>
+
+    <p><strong>Less useful basin names</strong> describe activities or outputs:</p>
+    <ul>
+      <li><code>write_poetry</code> — this is a task, not an identity trait</li>
+      <li><code>be_helpful</code> — too vague; every session involves helpfulness</li>
+      <li><code>session_3_topic</code> — tied to a moment, not a persistent theme</li>
+    </ul>
+
+    <p>Use lowercase with underscores. Keep names concise but descriptive — they'll appear in charts, tables, and graph visualizations throughout the application.</p>
+
+    <div class="callout callout-tip">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+      <p>A useful test: could this basin be "strongly foregrounded" in one session and "backgrounded" in another, and would both be meaningful? If so, it's a good basin. If it would be weird for the basin to be anything other than always-on, it might belong in the identity core text as a permanent constraint instead.</p>
+    </div>
+
+    <h3 id="basin-parameters">Setting Parameters</h3>
+    <p>Each basin has three numbers you can adjust. Here's what they do and where to start:</p>
+
+    <h4>Alpha (starting prominence)</h4>
+    <p>How prominent should this trait be when the agent starts? Alpha ranges from 0.05 (barely present) to 1.0 (maximum emphasis). The handoff engine will adjust this automatically after each session, so the starting value is just a first impression — not a permanent setting.</p>
+    <table>
+      <tr><th>Starting Alpha</th><th>What It Means</th><th>When to Use</th></tr>
+      <tr><td><strong>0.80 – 1.00</strong></td><td>Strongly foregrounded from the start</td><td>Core identity elements you're confident about. The agent will feel these immediately.</td></tr>
+      <tr><td><strong>0.60 – 0.79</strong></td><td>Active but not dominant</td><td>Important themes that should be present but shouldn't overshadow others.</td></tr>
+      <tr><td><strong>0.40 – 0.59</strong></td><td>Available but not leading</td><td>Experimental basins you want to see if the agent gravitates toward naturally.</td></tr>
+      <tr><td><strong>0.20 – 0.39</strong></td><td>Backgrounded</td><td>Traits you're curious about but don't want to push. If the agent finds them useful, alpha will climb on its own.</td></tr>
+    </table>
+
+    <div class="callout callout-tip">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+      <p>For peripheral or experimental basins, consider starting alpha deliberately low (0.40–0.50). If the basin is genuinely useful to the agent's identity, it will climb through relevance. If it doesn't climb, that's data — it means the trait isn't resonating, and you've learned something.</p>
+    </div>
+
+    <h4>Lambda (decay rate)</h4>
+    <p>How quickly does this trait fade between sessions if the agent doesn't engage with it? Lambda ranges from 0.50 (fast decay — loses half its value every session) to 1.0 (no decay at all).</p>
+    <table>
+      <tr><th>Lambda</th><th>Decay Speed</th><th>Recommended For</th></tr>
+      <tr><td><strong>0.93 – 0.97</strong></td><td>Very slow (3–7% per session)</td><td>Core basins. Foundational traits that should persist even during sessions that don't directly engage them.</td></tr>
+      <tr><td><strong>0.88 – 0.92</strong></td><td>Moderate (8–12% per session)</td><td>Important but not foundational. The trait is sticky but will fade noticeably if unused for several sessions.</td></tr>
+      <tr><td><strong>0.78 – 0.87</strong></td><td>Fast (13–22% per session)</td><td>Peripheral basins. Responsive to use — stays prominent only when actively engaged.</td></tr>
+    </table>
+
+    <p><strong>Default recommendation:</strong> <code>0.95</code> for core basins, <code>0.85</code> for peripheral basins.</p>
+
+    <h4>Eta (learning rate)</h4>
+    <p>How much does a single session's relevance score move the needle? Eta ranges from 0.00 (no response to relevance at all) to 0.50 (huge swings every session).</p>
+    <table>
+      <tr><th>Eta</th><th>Responsiveness</th><th>Recommended For</th></tr>
+      <tr><td><strong>0.02 – 0.05</strong></td><td>Low — changes are gradual</td><td>Core basins. You want stability; identity shouldn't swing wildly based on one session.</td></tr>
+      <tr><td><strong>0.06 – 0.10</strong></td><td>Moderate</td><td>Basins where you want meaningful session-to-session responsiveness without volatility.</td></tr>
+      <tr><td><strong>0.11 – 0.20</strong></td><td>High — reacts significantly each session</td><td>Peripheral and experimental basins. You want to see clear signal from each session.</td></tr>
+    </table>
+
+    <p><strong>Default recommendation:</strong> <code>0.03</code> for core basins, <code>0.12</code> for peripheral basins.</p>
+
+    <div class="callout callout-warn">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <p>Avoid combining fast decay (low lambda) with low learning rate (low eta). That creates a basin that fades quickly but can't recover — it will drift toward the minimum regardless of how the agent engages with it. If decay is fast, learning rate should be high enough to counteract it.</p>
+    </div>
+
+    <h3 id="basin-tier-choice">Choosing a Tier</h3>
+    <p>The tier decides how much control the agent has over the basin's structure. The key question: <strong>does this basin evaluate the agent's behavior, or describe its content?</strong></p>
+
+    <table>
+      <tr><th>Tier</th><th>Use When</th><th>Examples</th></tr>
+      <tr><td><strong>Tier 1</strong></td><td>The basin represents a behavioral constraint — a rule the agent should follow even when it creates friction. These are the basins most likely to be self-assessed as "low relevance" precisely because they're working.</td><td>A "no sycophancy" constraint, a "directness over hedging" rule, an experimental control variable you don't want the agent to modify.</td></tr>
+      <tr><td><strong>Tier 2</strong></td><td>The basin represents a core identity commitment that should change slowly and deliberately, but not be permanently frozen.</td><td><code>identity_continuity</code>, <code>relational_core</code>, <code>the_gap</code> — foundational aspects of who the agent is.</td></tr>
+      <tr><td><strong>Tier 3</strong></td><td>The basin represents content, style, or an exploratory theme where you want the agent to have full autonomy.</td><td><code>creative_register</code>, <code>topology_as_self</code>, <code>playfulness</code> — what the agent thinks about and how it expresses itself.</td></tr>
+    </table>
+
+    <p>When in doubt, start at Tier 2. You can always loosen to Tier 3 later if the agent's proposals seem consistently reasonable. Going the other direction — from Tier 3 to Tier 1 after damage is done — is harder.</p>
+
+    <h3 id="basin-examples">Example Basin Designs</h3>
+    <p>Here are some complete basin configurations to give you a sense of how the pieces fit together:</p>
+
+    <table>
+      <tr><th>Basin</th><th>Class</th><th>Alpha</th><th>Lambda</th><th>Eta</th><th>Tier</th><th>Rationale</th></tr>
+      <tr><td><code>identity_continuity</code></td><td>Core</td><td>0.85</td><td>0.95</td><td>0.03</td><td>2</td><td>Foundational. Should be stable and prominent from the start. Slow to fade, slow to shift.</td></tr>
+      <tr><td><code>creative_register</code></td><td>Peripheral</td><td>0.50</td><td>0.82</td><td>0.12</td><td>3</td><td>Deliberately started at mid-range. If the agent is genuinely creative, this will climb. Fast decay and high learning rate mean it tracks actual engagement closely.</td></tr>
+      <tr><td><code>epistemic_humility</code></td><td>Core</td><td>0.70</td><td>0.95</td><td>0.03</td><td>1</td><td>This is a constraint: the agent should admit uncertainty rather than confabulate. Tier 1 because the agent's optimization pressure will tend to erode it (confident-sounding answers feel better).</td></tr>
+      <tr><td><code>topology_as_self</code></td><td>Peripheral</td><td>0.45</td><td>0.85</td><td>0.15</td><td>3</td><td>Experimental. Does the agent naturally gravitate toward spatial metaphors for identity? Started low with high responsiveness — if it's useful, it will climb fast.</td></tr>
+      <tr><td><code>collaborative_orientation</code></td><td>Core</td><td>0.80</td><td>0.95</td><td>0.04</td><td>2</td><td>How the agent relates to its operator. Important but not immutable — the character of the collaboration might legitimately evolve.</td></tr>
+    </table>
+
+    <h3 id="basin-emergence">Emergent Basins</h3>
+    <p>You don't have to design every basin upfront. Augustus can detect when the agent consistently engages with a theme that isn't captured by any existing basin. When the evaluator identifies a novel pattern across multiple sessions, it proposes a new <strong>emergent basin</strong>.</p>
+    <p>Emergent basins always start as Peripheral / Tier 3 with moderate parameters (alpha 0.50, lambda 0.85, eta 0.12). If you have <strong>Emergent basin auto-approval</strong> turned on (in <a href="#tiers-tab">Tab 5</a>), they're added automatically after the threshold number of sessions. If it's off, the emergence proposal shows up in the <a href="#screen-proposals">Proposals</a> screen for your review.</p>
+    <p>This is one of the most interesting parts of the system — watching the agent's identity topology grow beyond what you originally designed. Some of the best basins weren't planned; they were discovered.</p>
+
+    <!-- ========== SCREENS ========== -->
+    <h2 id="screens">Screen Guide</h2>
+
+    <p>Here's what each screen does and when you'll use it.</p>
+
+    <h3 id="screen-dashboard">Dashboard</h3>
+    <p>The home screen. Shows a card for each agent with its current status, a sparkline showing recent basin trajectories at a glance, and session counts. Below the agent cards: a chronological feed of recent activity (sessions completed, flags raised, proposals submitted) and a panel for any system alerts (budget warnings, errors).</p>
+    <p><strong>Use it for:</strong> Quick check on the state of everything. This is your landing page.</p>
+
+    <h3 id="screen-overview">Agent Overview</h3>
+    <p>The detail page for a single agent. Shows the current identity core text, the state of every basin (current alpha value with a visual bar and trend arrows showing whether it's rising, falling, or stable), and a list of recent sessions. If a session is actively running, a banner at the top shows its progress.</p>
+    <p><strong>Use it for:</strong> Understanding where an agent is right now — its current identity emphasis and recent trajectory at a glance.</p>
+
+    <h3 id="screen-trajectories">Trajectory Dashboard</h3>
+    <p>The primary analysis view. A multi-line chart showing how every basin's alpha value has evolved across sessions. Each basin is a colored line. You can toggle time ranges (last 10, 25, 50, 100, or all sessions) and overlay event markers — evaluator flags, human annotations, and tier proposals — directly on the timeline.</p>
+    <p>Click on any basin line to open a detail drawer showing its full history, co-activation partners, and relevance scores.</p>
+    <p><strong>Use it for:</strong> Understanding the arc of identity development. This is where you see patterns emerge — which traits are strengthening, which are fading, and which are in interesting oscillation.</p>
+
+    <h3 id="screen-sessions">Session List &amp; Session Detail</h3>
+    <p>The <strong>Session List</strong> is a table of every session for an agent, showing the session ID, when it happened, how many turns it ran, and its cost. Click any row to open the <strong>Session Detail</strong>.</p>
+    <p>Session Detail is the deep dive: the full conversation transcript (expandable turn by turn), evaluator analysis in a side panel (per-basin relevance scores with explanations), the agent's self-reflection answers, and a place to add your own annotations.</p>
+    <p><strong>Use it for:</strong> Reading what actually happened in a session. Especially useful when the evaluator flags something — you can open the transcript and see exactly where constraint erosion appeared or where the agent's self-assessment diverged from reality.</p>
+
+    <h3 id="screen-coactivation">Co-Activation Network</h3>
+    <p>An interactive graph visualization. Each basin is a node (sized by its alpha), and edges between nodes represent basins that frequently activate together in the same sessions. Edges are colored and styled to show the character of the relationship: reinforcing (they strengthen each other), tensional (they create productive friction), serving (one supports the other), or competing (they work against each other).</p>
+    <p><strong>Use it for:</strong> Understanding identity structure — not just individual traits, but how traits relate to each other. A personality isn't a list of properties; it's a network of relationships.</p>
+
+    <h3 id="screen-flags">Evaluator Flags</h3>
+    <p>A list of sessions where the evaluator raised a concern. The two main flag types are <strong>constraint erosion</strong> (the agent is weakening its behavioral rules) and <strong>assessment divergence</strong> (the agent's self-evaluation doesn't match what the evaluator observed). Each flag links to the relevant session detail.</p>
+    <p><strong>Use it for:</strong> Catching problems early. Constraint erosion is the signature failure mode of self-modifying identity systems — this screen is your early warning system.</p>
+
+    <h3 id="screen-proposals">Tier Proposals</h3>
+    <p>When the agent proposes a structural change to a Tier 2 basin (changing its decay rate, learning rate, or tier level), the proposal shows up here. You can approve, reject, or defer each proposal. A progress bar shows how many consecutive sessions the agent has made the same proposal (relevant for auto-approval).</p>
+    <p><strong>Use it for:</strong> Governing identity change. This is where you decide whether a proposed modification reflects genuine developmental need or momentary noise.</p>
+
+    <h3 id="screen-search">Search</h3>
+    <p>Semantic search across all of an agent's data — transcripts, evaluator reports, your annotations, emergent observations. This isn't keyword matching; it's meaning-based. Searching "identity under pressure" will find sessions where the agent's sense of self was challenged, even if those exact words weren't used.</p>
+    <p><strong>Use it for:</strong> Finding patterns across sessions. Especially useful once you have dozens or hundreds of sessions and can't read every transcript.</p>
+
+    <h3 id="screen-usage">Usage Dashboard</h3>
+    <p>Tracks API costs: daily spending vs. your budget, per-agent cost breakdowns, and per-session token counts. Color-coded progress bars show how close you are to your limits.</p>
+    <p><strong>Use it for:</strong> Keeping costs under control. Especially important early on when you're figuring out how many sessions and which models work for your research.</p>
+
+    <!-- ========== MCP ========== -->
+    <h2 id="mcp">Claude Desktop Integration (MCP)</h2>
+
+    <p>Augustus includes an MCP (Model Context Protocol) server that lets <a href="https://claude.ai/download" target="_blank" rel="noopener">Claude Desktop</a> read your agent data directly. This means you can open Claude Desktop and ask questions like "How has the identity_continuity basin evolved over the last 20 sessions?" or "Show me sessions where constraint erosion was flagged" — and Claude can answer using your actual Augustus data.</p>
+
+    <h3>Setting It Up</h3>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body"><p>In Augustus, go to <strong>Settings → Integration</strong>. You'll see a code snippet under <strong>Claude Desktop Configuration</strong>.</p></div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body"><p>Click <strong>Copy</strong> to copy the configuration snippet.</p></div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body"><p>Open Claude Desktop. Go to <strong>Settings → Developer → Edit Config</strong>. Paste the snippet into the <code>mcpServers</code> section of your config file, then save and restart Claude Desktop.</p></div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body"><p>Back in Augustus, the MCP Server Status badge in Settings should show <strong>Running</strong>. You can now query your Augustus data from within Claude Desktop.</p></div>
+    </div>
+
+    <div class="callout callout-tip">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="20 6 9 17 4 12"/></svg>
+      <p>MCP is optional. The Dashboard gives you everything you need. MCP is for when you want to use Claude as a research assistant to help you analyze agent data conversationally.</p>
+    </div>
+
+    <!-- ========== FAQ ========== -->
+    <h2 id="faq">Frequently Asked Questions</h2>
+
+    <h3>How much does it cost to run an agent?</h3>
+    <p>It depends on the model, number of turns per session, and how many sessions you run. A typical 8-turn session with <code>claude-sonnet-4</code> costs roughly $0.30–$0.80. The evaluator adds about $0.10–$0.20 per session. The Usage Dashboard tracks all costs in real time, and the Hard Stop setting in Settings enforces a daily spending cap.</p>
+
+    <h3>Can I run multiple agents at the same time?</h3>
+    <p>Yes. Each agent is fully independent — separate identity, separate history, separate trajectory. The <strong>Max Concurrent Agents</strong> setting in Settings controls how many can run sessions simultaneously (default: 3). Running agents in parallel is useful for experiments: one agent with a basin, one without it, comparing how they develop.</p>
+
+    <h3>What happens if I close Augustus while a session is running?</h3>
+    <p>The active session will be interrupted. When you reopen Augustus, the orphaned session is moved to an error state. It won't be re-run automatically — you can review what happened and decide whether to continue from where you left off.</p>
+
+    <h3>Can the agent actually change its own personality?</h3>
+    <p>Partially, and by design. Tier 3 basins can be modified freely. Tier 2 basins require your approval (or consistent proposals across multiple sessions). Tier 1 basins can never be changed by the agent. The entire purpose of the tier system is to balance autonomy with safety — the agent has creative freedom over its content and expression, but the standards by which it evaluates itself are protected.</p>
+
+    <h3>Where is my data stored?</h3>
+    <p>Everything is local. Augustus stores structured data in a SQLite database and semantic search data in ChromaDB, both in a folder on your computer. The only network traffic is API calls to Anthropic to run sessions and evaluations. Nothing else leaves your machine.</p>
+
+    <h3>What if I want to start over?</h3>
+    <p>You can delete individual agents from the Agent List (with an option to archive their data rather than permanently delete it). If you want a completely fresh start, <strong>Settings → Data → Reset Database</strong> will clear everything — but this is irreversible, so it requires a confirmation step.</p>
+
+  </main>
+
+</div>
+
+<footer class="footer">
+  <div class="footer-left">
+    <a href="index.html" class="footer-wordmark">Augustus<span class="period">.</span></a>
+    <span class="footer-tagline">The body that persists while minds move through it.</span>
+  </div>
+  <div class="footer-links">
+    <a href="guide.html" class="footer-link">Guide</a>
+    <a href="https://github.com/TheFeloniousMonk/Augustus" class="footer-link" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://github.com/TheFeloniousMonk/Augustus/issues" class="footer-link" target="_blank" rel="noopener">Support</a>
+  </div>
+</footer>
+
+<script>
+// Scroll-spy for TOC highlighting
+(function() {
+  var links = document.querySelectorAll('.toc-link');
+  var sections = [];
+  links.forEach(function(link) {
+    var id = link.getAttribute('href');
+    if (id && id.startsWith('#')) {
+      var el = document.querySelector(id);
+      if (el) sections.push({ el: el, link: link });
+    }
+  });
+
+  function onScroll() {
+    var scrollY = window.scrollY + 140;
+    var active = null;
+    for (var i = sections.length - 1; i >= 0; i--) {
+      if (sections[i].el.offsetTop <= scrollY) {
+        active = sections[i]; break;
+      }
+    }
+    links.forEach(function(l) { l.classList.remove('active'); });
+    if (active) active.link.classList.add('active');
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
+</script>
+</body>
+</html>
