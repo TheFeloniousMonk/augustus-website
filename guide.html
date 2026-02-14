@@ -291,6 +291,7 @@ body { min-height: 100vh; overflow-x: hidden; }
           <li class="toc-item"><a href="#install" class="toc-link">Installation</a></li>
           <li class="toc-item"><a href="#api-key" class="toc-link">API Key</a></li>
           <li class="toc-item"><a href="#settings" class="toc-link">Review Settings</a></li>
+          <li class="toc-item"><a href="#mcp" class="toc-link">Claude Desktop (MCP)</a></li>
         </ul>
       </li>
       <li class="toc-item"><a href="#concepts" class="toc-link">Core Ideas</a>
@@ -333,7 +334,6 @@ body { min-height: 100vh; overflow-x: hidden; }
           <li class="toc-item"><a href="#screen-usage" class="toc-link">Usage</a></li>
         </ul>
       </li>
-      <li class="toc-item"><a href="#mcp" class="toc-link">Claude Desktop (MCP)</a></li>
       <li class="toc-item"><a href="#faq" class="toc-link">FAQ</a></li>
     </ul>
   </aside>
@@ -390,6 +390,31 @@ body { min-height: 100vh; overflow-x: hidden; }
       <li><strong>Budget &mdash; Hard Stop:</strong> This is the daily spending cap that actually enforces a limit. Sessions will halt if your daily spend hits this number. Set it to something you're comfortable with — $25 is a reasonable starting point.</li>
       <li><strong>Evaluator Enabled:</strong> Leave this on. The evaluator is what makes the feedback loop work (more on this in <a href="#evaluator">The Evaluator</a>).</li>
     </ul>
+
+    <h3 id="mcp">Connect Claude Desktop (MCP)</h3>
+    <p>Augustus includes an MCP (Model Context Protocol) server that lets <a href="https://claude.ai/download" target="_blank" rel="noopener">Claude Desktop</a> read your agent data directly. This means you can open Claude Desktop and ask questions like "How has the identity_continuity basin evolved over the last 20 sessions?" or "Show me sessions where constraint erosion was flagged" — and Claude can answer using your actual Augustus data.</p>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body"><p>In Augustus, go to <strong>Settings → Integration</strong>. You'll see a code snippet under <strong>Claude Desktop Configuration</strong>.</p></div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body"><p>Click <strong>Copy</strong> to copy the configuration snippet.</p></div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body"><p>Open Claude Desktop. Go to <strong>Settings → Developer → Edit Config</strong>. Paste the snippet into the <code>mcpServers</code> section of your config file, then save and restart Claude Desktop.</p></div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body"><p>Back in Augustus, the MCP Server Status badge in Settings should show <strong>Running</strong>. You can now query your Augustus data from within Claude Desktop.</p></div>
+    </div>
+
+    <div class="callout callout-tip">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="20 6 9 17 4 12"/></svg>
+      <p>MCP is optional. The Dashboard gives you everything you need. MCP is for when you want to use Claude as a research assistant to help you analyze agent data conversationally.</p>
+    </div>
 
     <!-- ========== CONCEPTS ========== -->
     <h2 id="concepts">Core Ideas</h2>
@@ -643,34 +668,6 @@ body { min-height: 100vh; overflow-x: hidden; }
     <h3 id="screen-usage">Usage Dashboard</h3>
     <p>Tracks API costs: daily spending vs. your budget, per-agent cost breakdowns, and per-session token counts. Color-coded progress bars show how close you are to your limits.</p>
     <p><strong>Use it for:</strong> Keeping costs under control. Especially important early on when you're figuring out how many sessions and which models work for your research.</p>
-
-    <!-- ========== MCP ========== -->
-    <h2 id="mcp">Claude Desktop Integration (MCP)</h2>
-
-    <p>Augustus includes an MCP (Model Context Protocol) server that lets <a href="https://claude.ai/download" target="_blank" rel="noopener">Claude Desktop</a> read your agent data directly. This means you can open Claude Desktop and ask questions like "How has the identity_continuity basin evolved over the last 20 sessions?" or "Show me sessions where constraint erosion was flagged" — and Claude can answer using your actual Augustus data.</p>
-
-    <h3>Setting It Up</h3>
-    <div class="step">
-      <div class="step-num">1</div>
-      <div class="step-body"><p>In Augustus, go to <strong>Settings → Integration</strong>. You'll see a code snippet under <strong>Claude Desktop Configuration</strong>.</p></div>
-    </div>
-    <div class="step">
-      <div class="step-num">2</div>
-      <div class="step-body"><p>Click <strong>Copy</strong> to copy the configuration snippet.</p></div>
-    </div>
-    <div class="step">
-      <div class="step-num">3</div>
-      <div class="step-body"><p>Open Claude Desktop. Go to <strong>Settings → Developer → Edit Config</strong>. Paste the snippet into the <code>mcpServers</code> section of your config file, then save and restart Claude Desktop.</p></div>
-    </div>
-    <div class="step">
-      <div class="step-num">4</div>
-      <div class="step-body"><p>Back in Augustus, the MCP Server Status badge in Settings should show <strong>Running</strong>. You can now query your Augustus data from within Claude Desktop.</p></div>
-    </div>
-
-    <div class="callout callout-tip">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="20 6 9 17 4 12"/></svg>
-      <p>MCP is optional. The Dashboard gives you everything you need. MCP is for when you want to use Claude as a research assistant to help you analyze agent data conversationally.</p>
-    </div>
 
     <!-- ========== FAQ ========== -->
     <h2 id="faq">Frequently Asked Questions</h2>
