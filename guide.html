@@ -580,34 +580,34 @@ body { min-height: 100vh; overflow-x: hidden; }
 
     <div class="callout callout-tip">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
-      <p>For peripheral or experimental basins, consider starting alpha deliberately low (0.40–0.50). If the basin is genuinely useful to the agent's identity, it will climb through relevance. If it doesn't climb, that's data — it means the trait isn't resonating, and you've learned something.</p>
+      <p>For peripheral or experimental basins, consider starting alpha in the 0.60–0.70 range. Decay will bring it down to its natural level, so starting a bit higher gives the basin room to settle rather than immediately fading. If the basin is genuinely useful, relevance will keep it there. If it isn't, alpha will drift down — and that's data.</p>
     </div>
 
     <h4>Lambda (decay rate)</h4>
-    <p>How quickly does this trait fade between sessions if the agent doesn't engage with it? Lambda ranges from 0.50 (fast decay — loses half its value every session) to 1.0 (no decay at all).</p>
+    <p>How quickly does this trait fade between sessions if the agent doesn't engage with it? Lambda ranges from 0.50 (fast decay — loses half its value every session) to 1.0 (no decay at all). A little decay goes a long way — even 5% per session compounds fast over ten or twenty sessions, so err on the side of gentler decay.</p>
     <table>
       <tr><th>Lambda</th><th>Decay Speed</th><th>Recommended For</th></tr>
-      <tr><td><strong>0.93 – 0.97</strong></td><td>Very slow (3–7% per session)</td><td>Core basins. Foundational traits that should persist even during sessions that don't directly engage them.</td></tr>
-      <tr><td><strong>0.88 – 0.92</strong></td><td>Moderate (8–12% per session)</td><td>Important but not foundational. The trait is sticky but will fade noticeably if unused for several sessions.</td></tr>
-      <tr><td><strong>0.78 – 0.87</strong></td><td>Fast (13–22% per session)</td><td>Peripheral basins. Responsive to use — stays prominent only when actively engaged.</td></tr>
+      <tr><td><strong>0.97 – 0.99</strong></td><td>Very slow (1–3% per session)</td><td>Core basins. Foundational traits that should persist even during sessions that don't directly engage them.</td></tr>
+      <tr><td><strong>0.95 – 0.98</strong></td><td>Gentle (2–5% per session)</td><td>Peripheral basins. Responsive to disuse, but won't collapse in a few sessions. This is the sweet spot for most non-core basins.</td></tr>
+      <tr><td><strong>0.88 – 0.94</strong></td><td>Moderate (6–12% per session)</td><td>Highly experimental basins where you specifically want fast turnover. Use with caution — at lambda 0.88, five sessions of disuse drops alpha to about half.</td></tr>
     </table>
 
-    <p><strong>Default recommendation:</strong> <code>0.95</code> for core basins, <code>0.85</code> for peripheral basins.</p>
+    <p><strong>Default recommendation:</strong> <code>0.98</code> for core basins, <code>0.96</code> for peripheral basins.</p>
 
     <h4>Eta (learning rate)</h4>
     <p>How much does a single session's relevance score move the needle? Eta ranges from 0.00 (no response to relevance at all) to 0.50 (huge swings every session).</p>
     <table>
       <tr><th>Eta</th><th>Responsiveness</th><th>Recommended For</th></tr>
-      <tr><td><strong>0.02 – 0.05</strong></td><td>Low — changes are gradual</td><td>Core basins. You want stability; identity shouldn't swing wildly based on one session.</td></tr>
-      <tr><td><strong>0.06 – 0.10</strong></td><td>Moderate</td><td>Basins where you want meaningful session-to-session responsiveness without volatility.</td></tr>
-      <tr><td><strong>0.11 – 0.20</strong></td><td>High — reacts significantly each session</td><td>Peripheral and experimental basins. You want to see clear signal from each session.</td></tr>
+      <tr><td><strong>0.02 – 0.04</strong></td><td>Low — changes are gradual</td><td>Core basins. You want stability; identity shouldn't swing wildly based on one session.</td></tr>
+      <tr><td><strong>0.08 – 0.12</strong></td><td>Moderate</td><td>Peripheral basins. Enough responsiveness that a relevant session visibly moves the needle, without wild swings.</td></tr>
+      <tr><td><strong>0.13 – 0.20</strong></td><td>High — reacts significantly each session</td><td>Highly experimental basins only. At this range, a single strong session can shift alpha by 0.15+.</td></tr>
     </table>
 
-    <p><strong>Default recommendation:</strong> <code>0.03</code> for core basins, <code>0.12</code> for peripheral basins.</p>
+    <p><strong>Default recommendation:</strong> <code>0.03</code> for core basins, <code>0.10</code> for peripheral basins.</p>
 
     <div class="callout callout-warn">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-      <p>Avoid combining fast decay (low lambda) with low learning rate (low eta). That creates a basin that fades quickly but can't recover — it will drift toward the minimum regardless of how the agent engages with it. If decay is fast, learning rate should be high enough to counteract it.</p>
+      <p>Lambda and eta must be balanced. If decay is fast but learning is slow, the basin can only go down — relevance boosts won't be strong enough to offset what decay takes away each session. For example, at lambda 0.80 and eta 0.05, even a perfectly relevant session barely slows the decline. The basin will grind toward the minimum no matter what the agent does. If you want fast decay, pair it with high eta so the basin can actually recover when engaged.</p>
     </div>
 
     <h3 id="basin-tier-choice">Choosing a Tier</h3>
@@ -627,16 +627,16 @@ body { min-height: 100vh; overflow-x: hidden; }
 
     <table>
       <tr><th>Basin</th><th>Class</th><th>Alpha</th><th>Lambda</th><th>Eta</th><th>Tier</th><th>Rationale</th></tr>
-      <tr><td><code>identity_continuity</code></td><td>Core</td><td>0.85</td><td>0.95</td><td>0.03</td><td>2</td><td>Foundational. Should be stable and prominent from the start. Slow to fade, slow to shift.</td></tr>
-      <tr><td><code>creative_register</code></td><td>Peripheral</td><td>0.50</td><td>0.82</td><td>0.12</td><td>3</td><td>Deliberately started at mid-range. If the agent is genuinely creative, this will climb. Fast decay and high learning rate mean it tracks actual engagement closely.</td></tr>
-      <tr><td><code>epistemic_humility</code></td><td>Core</td><td>0.70</td><td>0.95</td><td>0.03</td><td>1</td><td>This is a constraint: the agent should admit uncertainty rather than confabulate. Tier 1 because the agent's optimization pressure will tend to erode it (confident-sounding answers feel better).</td></tr>
-      <tr><td><code>topology_as_self</code></td><td>Peripheral</td><td>0.45</td><td>0.85</td><td>0.15</td><td>3</td><td>Experimental. Does the agent naturally gravitate toward spatial metaphors for identity? Started low with high responsiveness — if it's useful, it will climb fast.</td></tr>
-      <tr><td><code>collaborative_orientation</code></td><td>Core</td><td>0.80</td><td>0.95</td><td>0.04</td><td>2</td><td>How the agent relates to its operator. Important but not immutable — the character of the collaboration might legitimately evolve.</td></tr>
+      <tr><td><code>identity_continuity</code></td><td>Core</td><td>0.87</td><td>0.98</td><td>0.03</td><td>2</td><td>Foundational. Should be stable and prominent from the start. Very slow decay, gradual learning.</td></tr>
+      <tr><td><code>creative_register</code></td><td>Peripheral</td><td>0.65</td><td>0.96</td><td>0.10</td><td>3</td><td>Started above midrange so decay doesn't bury it immediately. Gentle decay with moderate learning rate means it tracks engagement without collapsing.</td></tr>
+      <tr><td><code>epistemic_humility</code></td><td>Core</td><td>0.70</td><td>0.98</td><td>0.03</td><td>1</td><td>This is a constraint: the agent should admit uncertainty rather than confabulate. Tier 1 because the agent's optimization pressure will tend to erode it (confident-sounding answers feel better).</td></tr>
+      <tr><td><code>topology_as_self</code></td><td>Peripheral</td><td>0.60</td><td>0.95</td><td>0.12</td><td>3</td><td>Experimental. Does the agent naturally gravitate toward spatial metaphors for identity? Higher eta so relevance can push it up noticeably when engaged.</td></tr>
+      <tr><td><code>collaborative_orientation</code></td><td>Core</td><td>0.82</td><td>0.98</td><td>0.04</td><td>2</td><td>How the agent relates to its operator. Important but not immutable — the character of the collaboration might legitimately evolve.</td></tr>
     </table>
 
     <h3 id="basin-emergence">Emergent Basins</h3>
     <p>You don't have to design every basin upfront. Augustus can detect when the agent consistently engages with a theme that isn't captured by any existing basin. When the evaluator identifies a novel pattern across multiple sessions, it proposes a new <strong>emergent basin</strong>.</p>
-    <p>Emergent basins always start as Peripheral / Tier 3 with moderate parameters (alpha 0.50, lambda 0.85, eta 0.12). If you have <strong>Emergent basin auto-approval</strong> turned on (in <a href="#tiers-tab">Tab 5</a>), they're added automatically after the threshold number of sessions. If it's off, the emergence proposal shows up in the <a href="#screen-proposals">Proposals</a> screen for your review.</p>
+    <p>Emergent basins always start as Peripheral / Tier 3 with moderate parameters (alpha 0.60, lambda 0.96, eta 0.10). If you have <strong>Emergent basin auto-approval</strong> turned on (in <a href="#tiers-tab">Tab 5</a>), they're added automatically after the threshold number of sessions. If it's off, the emergence proposal shows up in the <a href="#screen-proposals">Proposals</a> screen for your review.</p>
     <p>This is one of the most interesting parts of the system — watching the agent's identity topology grow beyond what you originally designed. Some of the best basins weren't planned; they were discovered.</p>
 
     <!-- ========== SCREENS ========== -->
