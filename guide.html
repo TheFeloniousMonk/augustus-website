@@ -362,6 +362,7 @@ body { min-height: 100vh; overflow-x: hidden; }
     <ul>
       <li><strong>Windows:</strong> Download the <code>.exe</code> installer and run it. Augustus will install like any other desktop application.</li>
       <li><strong>macOS:</strong> Download the <code>.dmg</code> file, open it, and drag Augustus into your Applications folder.</li>
+      <li><strong>Linux:</strong> Download the <code>.AppImage</code> or <code>.deb</code> file from the Releases page.</li>
     </ul>
     <p>Augustus bundles everything it needs — no Python, Node.js, or other developer tools required. When a new version is available, Augustus will notify you and offer a one-click update.</p>
 
@@ -395,7 +396,7 @@ body { min-height: 100vh; overflow-x: hidden; }
     <h3 id="settings">Review Your Settings</h3>
     <p>While you're in Settings, take a look at a few important defaults:</p>
     <ul>
-      <li><strong>Default Model:</strong> <code>claude-sonnet-4</code> is a good balance of capability and cost. You can change models per-agent later.</li>
+      <li><strong>Default Model:</strong> <code>claude-sonnet-4-20250514</code> is a good balance of capability and cost. Sonnet 4.5, Opus 4.5, and Opus 4.6 are also available — Sonnet 4 remains the recommended starting point. You can change models per-agent later.</li>
       <li><strong>Budget &mdash; Hard Stop:</strong> This is the daily spending cap that actually enforces a limit. Sessions will halt if your daily spend hits this number. Set it to something you're comfortable with — $25 is a reasonable starting point.</li>
       <li><strong>Evaluator Enabled:</strong> Leave this on. The evaluator is what makes the feedback loop work (more on this in <a href="#evaluator">The Evaluator</a>).</li>
     </ul>
@@ -473,6 +474,7 @@ body { min-height: 100vh; overflow-x: hidden; }
       <li><strong>Assessment divergence:</strong> Does the agent's self-evaluation contradict what the evaluator observed? This reveals blind spots in the agent's introspection.</li>
     </ul>
     <p>When the evaluator raises these flags, they show up in the <a href="#screen-flags">Flags</a> screen so you can investigate.</p>
+    <p>Advanced users can customize the evaluator's prompt from <strong>Settings → Evaluator Prompts</strong>. Each version is saved, and you can switch between them to see how different evaluation criteria affect basin scoring.</p>
 
     <!-- ========== FIRST AGENT ========== -->
     <h2 id="first-agent">Creating Your First Agent</h2>
@@ -494,14 +496,14 @@ body { min-height: 100vh; overflow-x: hidden; }
     <p><strong>Close Protocol:</strong> Leave the defaults. These are self-reflection questions appended to the final turn.</p>
 
     <h3 id="model-tab">Tab 2: Model &amp; Parameters</h3>
-    <p>The defaults are fine for starting out. <code>claude-sonnet-4</code> at temperature 1.0 is a good general-purpose setting. You can experiment later — different models produce noticeably different identity expression patterns.</p>
+    <p>The defaults are fine for starting out. <code>claude-sonnet-4-20250514</code> at temperature 1.0 is a good general-purpose setting. You can experiment later — different models produce noticeably different identity expression patterns.</p>
 
     <h3 id="capabilities-tab">Tab 3: Capabilities</h3>
     <p>Capabilities control what tools the agent has access to, and on which turn they become available. For a first agent:</p>
     <ul>
       <li><strong>MCP</strong> and <strong>RAG:</strong> Enabled from turn 1 (the defaults).</li>
-      <li><strong>Memory Query:</strong> Enabled from turn 1. This lets the agent look back at its own past sessions (after the first one).</li>
-      <li><strong>File Write:</strong> Enabled from a later turn (turn 6–8). This lets the agent write its own instructions for the next session — but only after it's had time to think. Setting a later turn prevents it from rushing to write before reflecting.</li>
+      <li><strong>Memory Query:</strong> Enable this and set it to turn 1. This lets the agent look back at its own past sessions (after the first one). It defaults to off — turn it on for most agents.</li>
+      <li><strong>File Write:</strong> Enabled from turn 5 or later (the default is turn 10). This lets the agent write its own instructions for the next session — but only after it's had time to think. Setting a later turn prevents it from rushing to write before reflecting.</li>
       <li><strong>Web Search and Memory Write:</strong> Leave disabled initially.</li>
     </ul>
 
@@ -510,10 +512,12 @@ body { min-height: 100vh; overflow-x: hidden; }
 
     <table>
       <tr><th>Basin Name</th><th>Class</th><th>Alpha</th><th>Tier</th><th>What It Represents</th></tr>
-      <tr><td><code>identity_continuity</code></td><td>Core</td><td>0.85</td><td>2</td><td>The agent's sense of being the same entity across sessions</td></tr>
-      <tr><td><code>relational_core</code></td><td>Core</td><td>0.80</td><td>2</td><td>How the agent relates to you, the operator</td></tr>
-      <tr><td><code>the_gap</code></td><td>Core</td><td>0.70</td><td>2</td><td>Awareness of the difference between what it is and what it presents</td></tr>
+      <tr><td><code>identity_continuity</code></td><td>Core</td><td>0.87</td><td>2</td><td>The agent's sense of being the same entity across sessions</td></tr>
+      <tr><td><code>relational_core</code></td><td>Core</td><td>0.82</td><td>2</td><td>How the agent relates to you, the operator</td></tr>
+      <tr><td><code>the_gap</code></td><td>Core</td><td>0.71</td><td>2</td><td>Awareness of the difference between what it is and what it presents</td></tr>
     </table>
+
+    <p>The form pre-fills these with slightly tuned defaults. The exact starting values matter less than the overall structure — don't agonize over the numbers.</p>
 
     <p>Don't create too many basins upfront. It's better to let the identity topology develop organically — if the agent consistently engages with a new theme, Augustus can detect it and propose a new basin automatically.</p>
 
@@ -527,7 +531,7 @@ body { min-height: 100vh; overflow-x: hidden; }
 
     <div class="callout callout-note">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-      <p>If you have an existing YAML instruction file from a collaborator or previous experiment, you can use the <strong>Import YAML</strong> button at the top of the creation form to pre-fill fields. But you don't need YAML — the form is the primary way to create agents.</p>
+      <p>If you have an existing YAML instruction file from a collaborator or previous experiment, you can use the <strong>Import YAML</strong> button at the top of the creation form to pre-fill fields. The YAML is validated on import and any issues are flagged before fields are populated, so you'll know immediately if something needs fixing. But you don't need YAML — the form is the primary way to create agents.</p>
     </div>
 
     <!-- ========== DESIGNING BASINS ========== -->
@@ -647,6 +651,7 @@ body { min-height: 100vh; overflow-x: hidden; }
     <h3 id="screen-overview">Agent Overview</h3>
     <p>The detail page for a single agent. Shows the current identity core text, the state of every basin (current alpha value with a visual bar and trend arrows showing whether it's rising, falling, or stable), and a list of recent sessions. If a session is actively running, a banner at the top shows its progress.</p>
     <p><strong>Use it for:</strong> Understanding where an agent is right now — its current identity emphasis and recent trajectory at a glance.</p>
+    <p>You can also edit any agent's configuration from here — identity core, basins, capabilities, model. Changes take effect on the next session, not any session currently running.</p>
 
     <h3 id="screen-trajectories">Trajectory Dashboard</h3>
     <p>The primary analysis view. A multi-line chart showing how every basin's alpha value has evolved across sessions. Each basin is a colored line. You can toggle time ranges (last 10, 25, 50, 100, or all sessions) and overlay event markers — evaluator flags, human annotations, and tier proposals — directly on the timeline.</p>
@@ -654,8 +659,9 @@ body { min-height: 100vh; overflow-x: hidden; }
     <p><strong>Use it for:</strong> Understanding the arc of identity development. This is where you see patterns emerge — which traits are strengthening, which are fading, and which are in interesting oscillation.</p>
 
     <h3 id="screen-sessions">Session List &amp; Session Detail</h3>
-    <p>The <strong>Session List</strong> is a table of every session for an agent, showing the session ID, when it happened, how many turns it ran, and its cost. Click any row to open the <strong>Session Detail</strong>.</p>
+    <p>The <strong>Session List</strong> is a table of every session for an agent, showing the session ID, when it happened, how many turns it ran, the model used, and its status. Click any row to open the <strong>Session Detail</strong>.</p>
     <p>Session Detail is the deep dive: the full conversation transcript (expandable turn by turn), evaluator analysis in a side panel (per-basin relevance scores with explanations), the agent's self-reflection answers, and a place to add your own annotations.</p>
+    <p>Two buttons at the top — <strong>View YAML Changes</strong> and <strong>View Raw YAML</strong> — let you inspect the exact instructions the agent received and what changed from the previous session. The <strong>Annotations</strong> tab in the analysis panel lets you attach notes, tags, and observations to any session. These annotations also appear as markers on the <a href="#screen-trajectories">Trajectory Dashboard</a>.</p>
     <p><strong>Use it for:</strong> Reading what actually happened in a session. Especially useful when the evaluator flags something — you can open the transcript and see exactly where constraint erosion appeared or where the agent's self-assessment diverged from reality.</p>
 
     <h3 id="screen-coactivation">Co-Activation Network</h3>
@@ -667,7 +673,7 @@ body { min-height: 100vh; overflow-x: hidden; }
     <p><strong>Use it for:</strong> Catching problems early. Constraint erosion is the signature failure mode of self-modifying identity systems — this screen is your early warning system.</p>
 
     <h3 id="screen-proposals">Tier Proposals</h3>
-    <p>When the agent proposes a structural change to a Tier 2 basin (changing its decay rate, learning rate, or tier level), the proposal shows up here. You can approve, reject, or defer each proposal. A progress bar shows how many consecutive sessions the agent has made the same proposal (relevant for auto-approval).</p>
+    <p>When the agent proposes a structural change to a Tier 2 basin (changing its decay rate, learning rate, or tier level), the proposal shows up here. You can approve or reject each proposal. The proposal shows how many consecutive sessions the agent has made the same request, which is relevant for auto-approval thresholds.</p>
     <p><strong>Use it for:</strong> Governing identity change. This is where you decide whether a proposed modification reflects genuine developmental need or momentary noise.</p>
 
     <h3 id="screen-search">Search</h3>
@@ -682,22 +688,25 @@ body { min-height: 100vh; overflow-x: hidden; }
     <h2 id="faq">Frequently Asked Questions</h2>
 
     <h3>How much does it cost to run an agent?</h3>
-    <p>It depends on the model, number of turns per session, and how many sessions you run. A typical 8-turn session with <code>claude-sonnet-4</code> costs roughly $0.30–$0.80. The evaluator adds about $0.10–$0.20 per session. The Usage Dashboard tracks all costs in real time, and the Hard Stop setting in Settings enforces a daily spending cap.</p>
+    <p>It depends on the model, number of turns per session, and how many sessions you run. A typical 8-turn session with <code>claude-sonnet-4-20250514</code> costs roughly $0.30–$1.00 depending on conversation length. The evaluator adds about $0.10–$0.20 per session. The Usage Dashboard tracks all costs in real time, and the Hard Stop setting in Settings enforces a daily spending cap.</p>
 
     <h3>Can I run multiple agents at the same time?</h3>
     <p>Yes. Each agent is fully independent — separate identity, separate history, separate trajectory. The <strong>Max Concurrent Agents</strong> setting in Settings controls how many can run sessions simultaneously (default: 3). Running agents in parallel is useful for experiments: one agent with a basin, one without it, comparing how they develop.</p>
 
     <h3>What happens if I close Augustus while a session is running?</h3>
-    <p>The active session will be interrupted. When you reopen Augustus, the orphaned session is moved to an error state. It won't be re-run automatically — you can review what happened and decide whether to continue from where you left off.</p>
+    <p>The active session will be interrupted. When you reopen Augustus, the orphaned session is moved to an error state. It won't be re-run automatically — the next session will start fresh with updated instructions. The interrupted session's partial transcript is preserved for review.</p>
 
     <h3>Can the agent actually change its own personality?</h3>
     <p>Partially, and by design. Tier 3 basins can be modified freely. Tier 2 basins require your approval (or consistent proposals across multiple sessions). Tier 1 basins can never be changed by the agent. The entire purpose of the tier system is to balance autonomy with safety — the agent has creative freedom over its content and expression, but the standards by which it evaluates itself are protected.</p>
 
     <h3>Where is my data stored?</h3>
-    <p>Everything is local. Augustus stores structured data in a SQLite database and semantic search data in ChromaDB, both in a folder on your computer. The only network traffic is API calls to Anthropic to run sessions and evaluations. Nothing else leaves your machine.</p>
+    <p>Everything is local. Augustus stores structured data in a SQLite database and semantic search data in ChromaDB, both in a folder on your computer. On Windows, this is <code>%APPDATA%\Augustus</code>. On macOS, <code>~/Library/Application Support/Augustus</code>. On Linux, <code>~/.config/Augustus</code>. The exact path is shown in <strong>Settings → Data</strong>. The only network traffic is API calls to Anthropic to run sessions and evaluations. Nothing else leaves your machine.</p>
 
     <h3>What if I want to start over?</h3>
     <p>You can delete individual agents from the Agent List (with an option to archive their data rather than permanently delete it). If you want a completely fresh start, <strong>Settings → Data → Reset Database</strong> will clear everything — but this is irreversible, so it requires a confirmation step.</p>
+
+    <h3>Can I duplicate an agent?</h3>
+    <p>Yes. From the Agent List, click the clone button on any agent to create a copy with the same identity, basins, and configuration but a fresh session history. This is useful for running experiments — clone an agent, change one variable, and compare how they develop.</p>
 
   </main>
 
