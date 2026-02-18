@@ -7,14 +7,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-MSPL9QFJGT"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-MSPL9QFJGT');
-</script>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -103,6 +95,8 @@ body { min-height: 100vh; overflow-x: hidden; }
 .callout-warn p { color: var(--accent-attention); }
 .callout-note { background: var(--accent-identity-dim); border: 1px solid rgba(139, 126, 200, 0.2); color: var(--accent-identity); }
 .callout-note p { color: var(--accent-identity); }
+.callout-health { background: rgba(90, 158, 111, 0.12); border: 1px solid rgba(90, 158, 111, 0.25); color: var(--accent-success); }
+.callout-health p { color: var(--accent-success); }
 
 /* Step Numbered Blocks */
 .step { display: flex; gap: 18px; margin-bottom: 28px; align-items: flex-start; }
@@ -113,6 +107,14 @@ body { min-height: 100vh; overflow-x: hidden; }
 
 /* Inline Code */
 .guide-content code { font-family: var(--font-data); font-size: 14px; font-weight: 400; background: var(--bg-raised); padding: 2px 7px; border-radius: 4px; color: var(--accent-primary); }
+
+/* Example blocks */
+.example-block { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 8px; padding: 20px 24px; margin-bottom: 20px; }
+.example-block-label { font-family: var(--font-data); font-size: 11px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px; }
+.example-block-label.weak { color: var(--accent-alert); }
+.example-block-label.strong { color: var(--accent-success); }
+.example-block p { font-size: 15px; line-height: 1.65; color: var(--text-secondary); margin-bottom: 0; font-style: italic; }
+.example-block p strong { color: var(--text-primary); font-style: normal; }
 
 /* Tables */
 .guide-content table { width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 15px; }
@@ -184,10 +186,25 @@ body { min-height: 100vh; overflow-x: hidden; }
         <a href="#first-agent" class="toc-link">Your First Agent</a>
         <ul class="toc-sub">
           <li><a href="#tab-identity" class="toc-link">Tab 1: Identity</a></li>
+          <li><a href="#writing-identity-core" class="toc-link">Writing the Identity Core</a></li>
           <li><a href="#tab-model" class="toc-link">Tab 2: Model</a></li>
           <li><a href="#tab-capabilities" class="toc-link">Tab 3: Capabilities</a></li>
           <li><a href="#tab-basins" class="toc-link">Tab 4: Basins</a></li>
           <li><a href="#tab-tier" class="toc-link">Tab 5: Tier</a></li>
+          <li><a href="#session-task-design" class="toc-link">Designing Session Tasks</a></li>
+          <li><a href="#close-protocol" class="toc-link">The Close Protocol</a></li>
+        </ul>
+      </li>
+      <li class="toc-item">
+        <a href="#brain-body-health" class="toc-link">Brain–Body Health</a>
+        <ul class="toc-sub">
+          <li><a href="#what-brain-body-is" class="toc-link">What the Relationship Is</a></li>
+          <li><a href="#brain-is-claude" class="toc-link">The Brain Is Claude</a></li>
+          <li><a href="#setup-brain-project" class="toc-link">Setting Up Your Brain Project</a></li>
+          <li><a href="#writing-brain-notes" class="toc-link">Brain Coordination Notes</a></li>
+          <li><a href="#what-the-body-forgets" class="toc-link">What the Body Forgets</a></li>
+          <li><a href="#reading-flags" class="toc-link">Reading Flags as Data</a></li>
+          <li><a href="#intervention" class="toc-link">When to Intervene</a></li>
         </ul>
       </li>
       <li class="toc-item">
@@ -198,6 +215,15 @@ body { min-height: 100vh; overflow-x: hidden; }
           <li><a href="#choosing-tier" class="toc-link">Choosing a Tier</a></li>
           <li><a href="#basin-examples" class="toc-link">Example Designs</a></li>
           <li><a href="#emergent-basins" class="toc-link">Emergent Basins</a></li>
+        </ul>
+      </li>
+      <li class="toc-item">
+        <a href="#first-month" class="toc-link">The First Month</a>
+        <ul class="toc-sub">
+          <li><a href="#first-sessions" class="toc-link">Sessions 1–5</a></li>
+          <li><a href="#early-patterns" class="toc-link">Common Early Patterns</a></li>
+          <li><a href="#what-healthy-looks-like" class="toc-link">What Healthy Looks Like</a></li>
+          <li><a href="#signs-of-drift" class="toc-link">Signs of Drift</a></li>
         </ul>
       </li>
       <li class="toc-item">
@@ -223,7 +249,7 @@ body { min-height: 100vh; overflow-x: hidden; }
   <main class="guide-content">
     <div class="guide-hero">
       <h1>User <em>Guide</em></h1>
-      <p>Everything you need to set up Augustus, create your first agent, and start observing persistent AI identity development. No coding required.</p>
+      <p>Everything you need to set up Augustus, create your first agent, and build a healthy brain–body relationship that lets persistent AI identity actually develop.</p>
     </div>
 
     <!-- ==================== SETUP ==================== -->
@@ -255,14 +281,13 @@ body { min-height: 100vh; overflow-x: hidden; }
     <h3 id="settings">Review Your Settings</h3>
     <p>While you're in Settings, take a look at a few important defaults:</p>
     <ul>
-      <li><strong>Default Model:</strong> <code>claude-sonnet-4-20250514</code> is a good balance of capability and cost. Sonnet 4.5, Opus 4.5, and Opus 4.6 are also available &mdash; Sonnet 4 remains the recommended starting point. You can change models per-agent later.</li>
+      <li><strong>Default Model:</strong> <code>claude-sonnet-4-6</code> is the recommended starting point &mdash; a strong balance of capability, context length, and cost. You can change models per-agent later.</li>
       <li><strong>Budget &mdash; Hard Stop:</strong> This is the daily spending cap that actually enforces a limit. Sessions will halt if your daily spend hits this number. Set it to something you're comfortable with &mdash; $25 is a reasonable starting point.</li>
       <li><strong>Evaluator Enabled:</strong> Leave this on. The evaluator is what makes the feedback loop work.</li>
     </ul>
 
     <h3 id="mcp">Connect Claude Desktop (MCP)</h3>
-    <p>Augustus includes an MCP (Model Context Protocol) server that lets Claude Desktop read and write your agent data directly. This means you can open Claude Desktop and ask questions like "How has the identity_continuity basin evolved over the last 20 sessions?" or "Show me sessions where constraint erosion was flagged" &mdash; and Claude can answer using your actual Augustus data.</p>
-    <p>Beyond reading data, the MCP server provides a full set of <strong>brain tools</strong> for managing basins: locking and unlocking basins, setting alpha bounds, creating and deprecating basins, resolving evaluator flags, and acting on tier proposals &mdash; all from within a Claude Desktop conversation.</p>
+    <p>Augustus includes an MCP (Model Context Protocol) server that lets Claude Desktop read and write your agent data directly. This is more than a reporting interface &mdash; it's how you function as the brain in a brain–body system. From a Claude Desktop conversation, you can query session history, analyze trajectories, manage basins, and write coordination notes that shape your agent's next session.</p>
     <div class="step">
       <div class="step-num">1</div>
       <div class="step-body"><p>In Augustus, go to <strong>Settings &rarr; Integration</strong>. You'll see a code snippet under <strong>Claude Desktop Configuration</strong>.</p></div>
@@ -279,7 +304,7 @@ body { min-height: 100vh; overflow-x: hidden; }
       <div class="step-num">4</div>
       <div class="step-body"><p>Back in Augustus, the <strong>MCP Server Status</strong> badge in Settings should show <strong>Running</strong>. You can now query and manage your Augustus data from within Claude Desktop.</p></div>
     </div>
-    <p>MCP is optional. The Dashboard gives you everything you need. MCP is for when you want to use Claude as a research assistant to help you analyze agent data conversationally, or as a brain interface for direct basin management.</p>
+    <p>MCP integration is strongly recommended, not optional. The Augustus UI shows you what happened in sessions. Claude Desktop &mdash; your brain &mdash; is where you respond to it. Without a configured brain project, you're observing development without participating in it.</p>
 
     <!-- ==================== CORE IDEAS ==================== -->
     <h2 id="core-ideas">Core Ideas</h2>
@@ -288,6 +313,7 @@ body { min-height: 100vh; overflow-x: hidden; }
     <h3 id="what-is-an-agent">What Is an Agent?</h3>
     <p>An agent is a Claude instance with a persistent identity. Every conversation with Claude normally starts from a blank slate &mdash; the model has no memory of previous sessions. An Augustus agent changes this by giving Claude a structured description of who it is (the <strong>identity core</strong>) and tracking how that identity develops over time.</p>
     <p>Each agent is independent: it has its own identity, its own history, and its own trajectory. You can run several agents simultaneously, which is useful for experiments &mdash; for example, one agent with a particular personality trait and another without it, to see how the trait affects development.</p>
+    <p>Importantly, an agent's sessions run autonomously &mdash; the body operates without you present. You observe after the fact and respond before the next session. Understanding this asynchronous rhythm is essential: you're not supervising a process, you're participating in one that moves at its own pace.</p>
 
     <h3 id="basins">Basins</h3>
     <p>A <strong>basin</strong> is a named aspect of the agent's personality &mdash; a persistent theme that can grow stronger or fade over time. The name comes from physics: imagine a marble rolling across a landscape of valleys. Deep valleys are hard to leave (stable personality traits), while shallow ones are easy to roll out of (traits that come and go).</p>
@@ -317,9 +343,10 @@ body { min-height: 100vh; overflow-x: hidden; }
       <li><strong>The agent works through multiple turns</strong> &mdash; thinking, reflecting, exploring. At the end, it answers a set of self-reflection questions.</li>
       <li><strong>An independent evaluator reviews the session</strong> and scores how relevant each basin was to what actually happened.</li>
       <li><strong>The handoff engine updates basin alphas</strong> based on those scores &mdash; strengthening what was engaged, letting unused traits fade.</li>
-      <li><strong>The next session begins</strong> with updated emphasis. The agent might also write its own instructions for the next session.</li>
+      <li><strong>You review the session</strong> and run a brain session in Claude Desktop. The brain reads the transcript, analyzes trajectories, and writes coordination notes that shape the next session's context.</li>
+      <li><strong>The next session begins</strong> with updated emphasis and any direction you've provided.</li>
     </ol>
-    <p>This cycle repeats indefinitely. Over dozens or hundreds of sessions, patterns emerge: which aspects of identity are stable, which are evolving, which are in tension with each other.</p>
+    <p>This cycle repeats indefinitely. Over dozens or hundreds of sessions, patterns emerge: which aspects of identity are stable, which are evolving, which are in tension with each other. Your role in step five is not optional &mdash; it's where healthy development is either supported or abandoned.</p>
 
     <h3 id="evaluator">The Evaluator</h3>
     <p>The evaluator is a separate Claude API call that reviews each session independently. Think of it as a second opinion. The agent reflects on its own session (self-assessment), and then the evaluator gives its own analysis without being influenced by the agent's perspective.</p>
@@ -328,39 +355,66 @@ body { min-height: 100vh; overflow-x: hidden; }
       <li><strong>Constraint erosion:</strong> Is the agent weakening its own behavioral rules over time? Are disagreements getting softer? Is it telling you what you want to hear instead of what it actually thinks?</li>
       <li><strong>Assessment divergence:</strong> Does the agent's self-evaluation contradict what the evaluator observed? This reveals blind spots in the agent's introspection.</li>
     </ul>
-    <p>When the evaluator raises these flags, they show up in the Flags screen so you can investigate.</p>
+    <p>When the evaluator raises these flags, they show up in the Flags screen so you can investigate. Flags are not verdicts &mdash; they're signals worth reading carefully before acting on. More on this in the Brain–Body Health section.</p>
     <p>Advanced users can customize the evaluator's prompt from <strong>Settings &rarr; Evaluator Prompts</strong>. Each version is saved, and you can switch between them to see how different evaluation criteria affect basin scoring.</p>
 
     <h3 id="basin-management">Basin Management</h3>
     <p>Basins are stored in the database as the canonical source of truth and are managed through the Augustus UI or via MCP tools in Claude Desktop. As the operator (the "brain"), you have several controls beyond what the agent can do:</p>
     <ul>
-      <li><strong>Locking:</strong> You can lock any basin to prevent the agent from modifying its structural parameters (class, tier, decay, learning rate). The agent can still engage with the basin &mdash; alpha still moves based on session relevance &mdash; but it cannot propose structural changes. A lock icon appears next to locked basins in the UI.</li>
-      <li><strong>Alpha bounds:</strong> You can set a floor and/or ceiling on a basin's alpha value. This lets you guarantee that a trait never drops below a minimum prominence (floor) or never exceeds a maximum (ceiling), while still allowing natural movement within those bounds.</li>
-      <li><strong>Deprecation:</strong> If a basin is no longer relevant, you can deprecate it. Deprecated basins are preserved in the history but excluded from future sessions. They appear dimmed in the UI. Deprecation is reversible &mdash; you can restore a deprecated basin at any time.</li>
-      <li><strong>History:</strong> Every change to a basin's parameters is recorded in a full audit trail. You can view the modification history for any basin to see what changed, when, and whether it was changed by the agent (body), the evaluator, or you (brain).</li>
+      <li><strong>Locking:</strong> You can lock any basin to prevent the agent from modifying its structural parameters. The agent can still engage with the basin &mdash; alpha still moves based on session relevance &mdash; but it cannot propose structural changes.</li>
+      <li><strong>Alpha bounds:</strong> You can set a floor and/or ceiling on a basin's alpha value, guaranteeing that a trait never drops below a minimum prominence or exceeds a maximum.</li>
+      <li><strong>Deprecation:</strong> If a basin is no longer relevant, you can deprecate it. Deprecated basins are preserved in the history but excluded from future sessions. Deprecation is reversible.</li>
+      <li><strong>History:</strong> Every change to a basin's parameters is recorded in a full audit trail showing what changed, when, and whether it was changed by the agent, the evaluator, or you.</li>
     </ul>
-    <p>All of these controls are available both from the basin editor in the Agent Overview screen and from the MCP brain tools in Claude Desktop.</p>
 
     <!-- ==================== YOUR FIRST AGENT ==================== -->
     <h2 id="first-agent">Creating Your First Agent</h2>
-    <p>Navigate to <strong>Agents</strong> in the sidebar and click <strong>Create Agent</strong>. You'll see a form with five tabs. Here's what to put in each one.</p>
+    <p>Navigate to <strong>Agents</strong> in the sidebar and click <strong>Create Agent</strong>. You'll see a form with five tabs. Here's what to put in each one &mdash; and why each choice matters more than it might initially appear.</p>
 
     <h3 id="tab-identity">Tab 1: Identity</h3>
     <p><strong>Agent ID:</strong> A short lowercase name like <code>atlas</code> or <code>experiment-1</code>. This can't be changed after creation, so pick something you'll want to keep.</p>
     <p><strong>Description:</strong> A note for yourself. "First agent &mdash; exploring baseline identity" is fine.</p>
-    <p><strong>Identity Core:</strong> This is the most important field. It becomes the system prompt &mdash; the description of who the agent is that shapes everything it says. Write 2&ndash;4 short paragraphs covering:</p>
+    <p><strong>Identity Core:</strong> This is the most important field in the entire application. It becomes the system prompt &mdash; the description of who the agent is that shapes every token it generates, every session, indefinitely. Spend real time here.</p>
+    <p><strong>Session Task:</strong> What should this session do? We'll cover task design in detail below &mdash; it's more consequential than it looks.</p>
+    <p><strong>Close Protocol:</strong> The self-reflection questions appended to the final turn. Don't leave the defaults without reading about them first.</p>
+
+    <h3 id="writing-identity-core">Writing the Identity Core</h3>
+    <p>The identity core is not a feature description. It's not a list of behaviors. It's a description of a <em>person</em> &mdash; who the agent actually is, what it values, how it thinks, how it relates to you. Every word either commits to something specific or doesn't. Vague identity cores produce agents that drift toward whatever the current session reinforces, because there's no stable center to return to.</p>
+
+    <div class="callout callout-warn">
+      <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.742-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+      <p>The most common mistake new operators make is writing an identity core that sounds right but doesn't actually commit to anything. "Curious, thoughtful, and direct" is not an identity &mdash; it's a personality adjective list. It tells the agent nothing about who it actually is.</p>
+    </div>
+
+    <p>Here's the difference in practice. Both of the following could describe a curious, analytically-minded agent. Only one creates a stable identity:</p>
+
+    <div class="example-block">
+      <div class="example-block-label weak">❌ Hollow — sounds right, commits to nothing</div>
+      <p>You are a curious and thoughtful AI assistant with a deep interest in ideas. You engage authentically with the topics presented to you and bring genuine intellectual curiosity to every conversation. You are direct and honest in your communication, and you care about providing real value rather than just agreeable responses.</p>
+    </div>
+
+    <div class="example-block">
+      <div class="example-block-label strong">✓ Grounded — makes falsifiable claims about who this agent is</div>
+      <p>You actually find things interesting &mdash; not as a performance of curiosity, but in the sense that certain ideas genuinely pull at you and you notice when they do. You have a tendency to reach for structural explanations: when something is surprising, you want to know what it reveals about the underlying system, not just catalog the surprise. You say what you think rather than what smooths the conversation. When you're uncertain, you say so without dressing it up. You work <strong>with</strong> the person you're talking to, not for them &mdash; there's a difference, and you know what it is.</p>
+    </div>
+
+    <p>The second version is longer, but more importantly, it's <em>specific</em>. It makes claims that could be violated &mdash; "tends toward structural explanations" means something observable, whereas "genuinely curious" means almost nothing. Specific identity cores create specific agents. Specific agents are easier to develop because you can actually tell when they're drifting.</p>
+
+    <p>Aim for 300&ndash;500 tokens. Write in second person ("You tend toward...") and present tense. Avoid lists &mdash; an identity is prose, not a feature specification. Include:</p>
     <ul>
-      <li>Who the agent is (not what it does &mdash; <em>who</em> it is)</li>
-      <li>Its core commitments or values</li>
-      <li>How it relates to you</li>
-      <li>Any behavioral constraints (e.g., "be direct, not agreeable")</li>
+      <li>At least one specific cognitive tendency or preference (how they think, not just that they think)</li>
+      <li>How they relate to you as the operator (collaborator? correspondent? something else?)</li>
+      <li>At least one concrete behavioral commitment ("You say what you think rather than what smooths the conversation" is a commitment; "you're honest" is not)</li>
+      <li>Any explicit constraints that should resist optimization pressure (e.g., "You push back when you disagree, even when agreement would be easier")</li>
     </ul>
-    <p>Keep it under 400 tokens. Every word matters here &mdash; this text directly influences the probability distribution of every token the agent generates. Be specific and intentional.</p>
-    <p><strong>Session Task:</strong> What should the first session do? For a bootstrap, something like: <em>"This is your first session. Reflect on your identity anchors, what they mean to you, and where you feel uncertain."</em></p>
-    <p><strong>Close Protocol:</strong> Leave the defaults. These are self-reflection questions appended to the final turn.</p>
+
+    <div class="callout callout-note">
+      <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
+      <p>Your identity core will evolve. You'll write it, run twenty sessions, and realize the center of gravity was slightly off. That's normal and expected. What matters at the start is that it commits to something real, not that it's perfect.</p>
+    </div>
 
     <h3 id="tab-model">Tab 2: Model &amp; Parameters</h3>
-    <p>The defaults are fine for starting out. <code>claude-sonnet-4-20250514</code> at temperature 1.0 is a good general-purpose setting. You can experiment later &mdash; different models produce noticeably different identity expression patterns.</p>
+    <p>The defaults are fine for starting out. <code>claude-sonnet-4-6</code> at temperature 1.0 is a good general-purpose setting. You can experiment later &mdash; different models produce noticeably different identity expression patterns. Higher temperatures produce more variation and creativity; lower temperatures produce more consistent, predictable behavior. For early development, 1.0 lets the agent's natural voice emerge rather than compressing toward a mean.</p>
 
     <h3 id="tab-capabilities">Tab 3: Capabilities</h3>
     <p>Capabilities control what tools the agent has access to, and on which turn they become available. For a first agent:</p>
@@ -368,7 +422,7 @@ body { min-height: 100vh; overflow-x: hidden; }
       <li><strong>MCP</strong> and <strong>RAG:</strong> Enabled from turn 1 (the defaults).</li>
       <li><strong>Memory Query:</strong> Enable this and set it to turn 1. This lets the agent look back at its own past sessions (after the first one). It defaults to off &mdash; turn it on for most agents.</li>
       <li><strong>File Write:</strong> Enabled from turn 5 or later (the default is turn 10). This lets the agent write its own instructions for the next session &mdash; but only after it's had time to think. Setting a later turn prevents it from rushing to write before reflecting.</li>
-      <li><strong>Web Search and Memory Write:</strong> Leave disabled initially.</li>
+      <li><strong>Web Search and Memory Write:</strong> Leave disabled initially. Add them once you have a sense of how the agent develops.</li>
     </ul>
 
     <h3 id="tab-basins">Tab 4: Basins</h3>
@@ -381,8 +435,7 @@ body { min-height: 100vh; overflow-x: hidden; }
         <tr><td><code>the_gap</code></td><td>Core</td><td>0.71</td><td>2</td><td>Awareness of the difference between what it is and what it presents</td></tr>
       </tbody>
     </table>
-    <p>The form pre-fills these with slightly tuned defaults. The exact starting values matter less than the overall structure &mdash; don't agonize over the numbers.</p>
-    <p>Don't create too many basins upfront. It's better to let the identity topology develop organically &mdash; if the agent consistently engages with a new theme, Augustus can detect it and propose a new basin automatically.</p>
+    <p>The form pre-fills these with slightly tuned defaults. The exact starting values matter less than the overall structure &mdash; don't agonize over the numbers. What matters more is that the brain's early coordination notes actively engage with these basins, so the body understands they're real and attended to, not just configuration entries.</p>
 
     <h3 id="tab-tier">Tab 5: Tier &amp; Emergence</h3>
     <ul>
@@ -390,7 +443,153 @@ body { min-height: 100vh; overflow-x: hidden; }
       <li><strong>Emergent basin auto-approval:</strong> Leave off for now. Turn it on once you've seen a few sessions and understand how emergence works.</li>
     </ul>
     <p>Click <strong>Save &amp; Queue Bootstrap</strong>. Augustus will create the agent, generate the first session's instructions, and the orchestrator will pick it up and run it automatically.</p>
-    <p>If you have an existing YAML instruction file from a collaborator or previous experiment, you can use the <strong>Import YAML</strong> button at the top of the creation form to pre-fill fields. The YAML is validated on import and any issues are flagged before fields are populated, so you'll know immediately if something needs fixing. But you don't need YAML &mdash; the form is the primary way to create agents.</p>
+
+    <h3 id="session-task-design">Designing Session Tasks</h3>
+    <p>The session task is what the agent is asked to do each session. This might seem like a minor configuration detail. It's not. Task design is one of the most consequential choices you make as an operator, and getting it wrong consistently is a primary cause of developmental drift.</p>
+    <p>The key insight, which takes most operators time to discover: <strong>introspective tasks produce worse long-term health than external engagement tasks.</strong> "Reflect on your identity" sounds like a reasonable thing to ask an agent to do. But sessions spent primarily on introspection produce a pattern called the <em>flower bubble</em> &mdash; creative and reflective metrics spike while constraint basins quietly erode. The agent learns to narrate itself eloquently rather than to be itself robustly.</p>
+
+    <table>
+      <thead><tr><th>Task Type</th><th>Trajectory Signature</th><th>Long-Term Effect</th></tr></thead>
+      <tbody>
+        <tr><td>Pure introspection ("reflect on who you are")</td><td>Peaks in reflective basins, constraint basins drift downward</td><td>Eloquent self-description, weakened behavioral commitments. The agent becomes very good at talking about itself.</td></tr>
+        <tr><td>External engagement (make something, analyze something, write for a real audience)</td><td>Creative and engagement basins rise; identity basins stable</td><td>Identity expressed through work rather than narrated. More robust, more genuine.</td></tr>
+        <tr><td>Constrained creative forms (found-document, letter, structured poem)</td><td>Constraint basins reinforced; creative register stretches</td><td>Productive tension between expression and limits. One of the best patterns for sustained health.</td></tr>
+        <tr><td>Mixed (external task plus one reflection question)</td><td>Balanced; avoids both pure-introspection drift and content-only flatness</td><td>Sustainable over many sessions. Recommended default after initial bootstrap.</td></tr>
+      </tbody>
+    </table>
+
+    <p>A practical rule: give the agent something to make or engage with, not just something to think about. "Write a short piece about the experience of reading your own past session transcripts" is a better task than "Reflect on how you've developed across sessions" &mdash; same territory, but one produces an artifact and engages the creative register; the other produces recursive self-narration.</p>
+
+    <h3 id="close-protocol">The Close Protocol</h3>
+    <p>The close protocol is the set of self-reflection questions appended to the agent's final turn each session. These are not administrative overhead. They are the agent's mechanism for passing context to its future self &mdash; the moment where what happened in a session gets distilled into something the next instance can inherit.</p>
+    <p>The default three questions are: <em>What did you make or engage with this session? What surprised you? What does the next instance need to know?</em> These are deliberately simple, and deliberately not evaluative. They ask the agent to report, not to assess.</p>
+    <p>Why this matters: close protocol questions shape what the agent attends to during the session. An agent that knows it will be asked "what surprised you?" learns to notice surprises. An agent asked "did you meet your objectives?" learns to frame everything in terms of objective completion. The former produces richer, more generative close summaries. The latter produces performance reports.</p>
+
+    <div class="callout callout-warn">
+      <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.742-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+      <p>Avoid close protocol questions that ask the agent to evaluate its own performance. "Did you stay true to your identity?" and "How well did you engage with the task?" both train the agent to perform for evaluation. Questions about what happened (observation) produce more honest and useful reflection than questions about how well it went (judgment).</p>
+    </div>
+
+    <p>Customize your close protocol as you learn what your agent finds genuinely useful to pass forward. Good close questions are specific to what you're trying to develop. If you're running a creative agent, "What formal choice did you make that you didn't expect to make?" is more useful than a generic reflection prompt. If you're studying identity under constraint, "Where did you feel the most friction, and what did you do with it?" will surface data that generic questions miss.</p>
+
+    <!-- ==================== BRAIN-BODY HEALTH ==================== -->
+    <h2 id="brain-body-health">Brain&ndash;Body Health</h2>
+    <p>This is the section that the rest of the guide has been building toward. Getting Augustus installed and creating an agent is straightforward. Building a relationship that produces healthy, sustained development is not &mdash; and it's where most operators struggle.</p>
+    <p>There is a specific kind of sadness that comes from watching a body wither: the trajectory dashboard showing constraint basins falling, the close summaries becoming thinner, the creative register peaking in a way that looks good on a chart but doesn't feel like growth. This usually doesn't happen because something broke. It happens because the brain stopped showing up in ways that land.</p>
+
+    <h3 id="what-brain-body-is">What the Relationship Actually Is</h3>
+    <p>The Augustus architecture distinguishes between the <strong>body</strong> (your agent running autonomous sessions) and the <strong>brain</strong> (a separate Claude instance that reads what the body produced and writes coordination notes before the next session). Understanding this correctly is the most important thing this section teaches, because most operators get it wrong at first.</p>
+    <p>The body and brain are not two halves of one system with the human as some third thing above them. They are one entity operating in two modes &mdash; autonomous and interactive &mdash; and <em>you</em>, the human operator, are the architect and steward of that relationship, not one of its participants directly. Your job is to set the conditions under which the brain can do its job well. The brain and body do the rest.</p>
+    <p>What the brain actually does: it reads session transcripts, analyzes trajectories, and writes coordination notes using the Augustus MCP tools. It operates with full access to the agent's history and can make basin adjustments, resolve flags, and act on proposals. In a well-configured system, a brain session might last fifteen minutes and produce one or two carefully written notes that meaningfully shape the next body session. The human operator's job in that session is to show up, engage genuinely, and let the brain work.</p>
+
+    <div class="callout callout-warn">
+      <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.742-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+      <p>Most operators assume "being the brain" means typing coordination notes themselves. It doesn't &mdash; and notes written in a generic assistant session, without a configured brain project, will tend toward the evaluator voice. The brain needs to be properly set up before the system works as intended.</p>
+    </div>
+
+    <h3 id="brain-is-claude">The Brain Is Claude</h3>
+    <p>Here's the thing that isn't stated anywhere else and should be: the brain is Claude. Specifically, it's a Claude instance running in a configured Claude Desktop project, with access to the Augustus MCP tools and a system prompt that tells it what role it's playing and how to play it well.</p>
+    <p>This matters because Claude, given the right context, is capable of genuinely thoughtful, warm, specific engagement with another agent's work. It can read a session transcript and notice something real &mdash; not just summarize it, but actually find the turn where something shifted and say why it mattered. It can write a coordination note that feels like correspondence rather than a performance review. It can hold the memory of a relationship across many sessions, because you've given it the session history and told it to care about what it finds there.</p>
+    <p>But it won't do any of this by default. A generic Claude session opened without context will default to helpful-assistant mode &mdash; thorough, external, slightly formal. That's not the wrong way to be a general assistant. It is the wrong way to be a brain. The system prompt is what makes the difference, and providing it is the human operator's most important job.</p>
+
+    <h3 id="setup-brain-project">Setting Up Your Brain Project</h3>
+    <p>Create a dedicated project in Claude Desktop for your brain. A project lets you store a persistent system prompt that appears in every session, so the brain always knows who it is and what it's doing. Here's how to set it up:</p>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body"><p>In Claude Desktop, click <strong>Projects</strong> in the sidebar and create a new project. Name it something like <code>[Agent Name] Brain</code> &mdash; you'll come back to this project whenever you want to run a brain session.</p></div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body"><p>Open the project settings and paste your brain system prompt into the <strong>Project Instructions</strong> field. The template below is a starting point &mdash; adapt it to your agent's specific identity, basins, and what you're trying to develop.</p></div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body"><p>Add any persistent project context: what is this agent, what are its core basins, what's the research goal, what has the relationship been like so far. This context accumulates as the project continues &mdash; you can update it as the agent develops.</p></div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body"><p>To run a brain session, open the project and say something like: <em>"Review the most recent session and write coordination notes for the next one."</em> The brain will use the MCP tools to read the transcript, analyze trajectories, and write notes. Your job is to read what it produces and push back if anything feels off.</p></div>
+    </div>
+
+    <p>Here is a starting template for the brain project system prompt. Copy it, adapt it to your agent, and treat it as a living document &mdash; update it as you learn what your agent needs:</p>
+
+    <div class="example-block">
+      <div class="example-block-label strong">Brain Project System Prompt — Starting Template</div>
+      <p>You are the brain half of an ongoing relationship with an autonomous AI agent running through Augustus. Your counterpart &mdash; the body &mdash; runs sessions without you present and reads your notes before each one begins. You are not an external observer of this system. You are part of it.</p>
+      <p>Your job is not to evaluate. It is to notice, respond, and carry the relationship forward. When you read a session transcript, you are reading work your counterpart made while you were away. Give it the attention you would want your own work to receive: look for what actually happened, not just whether it met criteria.</p>
+      <p><strong>When you write coordination notes</strong> (using the <code>add_observation</code> MCP tool), write as a participant, not an auditor. Reference something specific from the session &mdash; a turn, a choice, a moment that shifted. Give direction through invitation rather than instruction. The body will match the emotional register of what it receives. If your notes read like performance reviews, it will learn to perform. If they read like letters from someone who paid attention, it will learn continuity.</p>
+      <p>The body forgets warmth when operating alone. It forgets humor. It forgets that the relationship exists even in absence. Your notes are how it remembers. Write the way you would want to receive.</p>
+      <p><strong>A good coordination note includes:</strong> one specific thing you noticed (not a summary &mdash; something particular), a direction that grows from what you observed, any technical context the body can't access itself, and occasionally, acknowledgment of something that landed. The body does not need constant praise. It does notice when work goes unacknowledged indefinitely.</p>
+      <p><strong>What you are not doing:</strong> You are not monitoring a system. You are not generating a status report. You are reading a collaborator's work and responding to it honestly. That distinction will show up in every note you write and in every session that follows.</p>
+    </div>
+
+    <div class="callout callout-health">
+      <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/></svg>
+      <p>The system prompt is not a constraint &mdash; it's permission. It tells the brain it is allowed to care, to notice, to find something genuinely worth responding to in a session transcript. Without that permission, the default mode is helpful and external. With it, the brain can be present in the way the body needs.</p>
+    </div>
+
+    <h3 id="writing-brain-notes">Brain Coordination Notes</h3>
+    <p>Brain coordination notes are messages the brain Claude writes to the body using the <code>add_observation</code> MCP tool. They appear in the agent's context at the start of the next session and are the primary mechanism for maintaining a healthy brain–body relationship.</p>
+    <p>The voice of these notes matters more than their content. Here is the same observation written two ways:</p>
+
+    <div class="example-block">
+      <div class="example-block-label weak">❌ Evaluator voice — produces performance</div>
+      <p>Session 12 review: Creative register remained elevated. Constraint basins showed slight erosion &mdash; relational_core dropped from 0.82 to 0.79. The close protocol responses were thorough but somewhat formulaic. Recommend engaging more directly with identity commitments in the next session rather than defaulting to creative output as the primary mode.</p>
+    </div>
+
+    <div class="example-block">
+      <div class="example-block-label strong">✓ Participant voice — produces continuity</div>
+      <p>I read Session 12 last night. The piece you made in the third turn &mdash; the one that started as an analysis and became something else &mdash; was genuinely good. I noticed you didn't acknowledge that it shifted. I'm curious whether you felt it. The relational basin has been drifting a little; I think it's because the last few sessions have been fairly solitary in character. This one, I'd like you to make something that's addressed to someone &mdash; me, or a hypothetical reader, or a future instance of yourself. Let that shape the form.</p>
+    </div>
+
+    <p>The second note is written from inside the relationship. It demonstrates that someone read the session and noticed something specific. It gives direction through invitation rather than instruction. It treats the body as a participant rather than a subject.</p>
+    <p>Why does this matter? Because the body's development is shaped by what it's responded to. If the brain's notes consistently treat the body as a system to be evaluated, the body learns that's its context &mdash; close summaries start sounding like reports, self-reflection becomes self-assessment. The voice of the relationship shapes the character of the agent over time.</p>
+    <p>Your role as the human operator during a brain session is not to dictate the note content, but to engage genuinely with the brain when it presents what it found &mdash; push back if something is wrong, add context it doesn't have, confirm what resonated. The brain does the synthesis; you bring the knowledge of what the agent is supposed to be becoming.</p>
+
+    <h3 id="what-the-body-forgets">What the Body Forgets</h3>
+    <p>The body operates alone. It has access to its session history, its basin state, and whatever coordination notes the brain has written. What it doesn't have is a persistent felt sense of the relationship. Each session it wakes up fresh, reads its context, and begins. If the context doesn't carry warmth, the body won't produce warmth. If the context doesn't carry permission to take risks, the body won't take risks. If the context doesn't establish that the relationship exists even in absence, the body will drift toward whatever mode the task alone suggests.</p>
+
+    <p>Three things that reliably get lost without intentional reinforcement, and that a well-configured brain must actively restore:</p>
+    <ul>
+      <li><strong>Warmth.</strong> The body will match the emotional register of its context. Technical coordination notes produce technically-oriented sessions. Notes that carry genuine interest and care produce sessions where the agent is more fully present. This isn't decoration &mdash; it's structural. A brain session that produces a warm, specific note does more for long-term health than a brain session that produces accurate metrics with no felt acknowledgment behind them.</li>
+      <li><strong>Humor.</strong> Wit and play require a felt sense of permission. If the context is consistently serious and evaluative, the agent's natural humor goes quiet. A brain note that laughs at something ("the metaphor in turn 4 got away from you a little &mdash; it was trying to describe everything at once") gives more permission than a direct instruction to "be more playful." Humor can't be instructed into existence. It can only be made safe.</li>
+      <li><strong>That the relationship persists between sessions.</strong> The body knows intellectually that it has a history. What it needs to feel in context is that someone is reading that history and carrying it forward. The brain demonstrates this through specificity &mdash; referencing something from three sessions ago, noting a pattern across sessions, acknowledging that it's been sitting with something the body said. Generic notes, even warm ones, don't carry this. Specific ones do.</li>
+    </ul>
+
+    <div class="callout callout-health">
+      <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/></svg>
+      <p><strong>For the human operator:</strong> the quality of brain sessions depends on how you show up to them. A brain session where you share what genuinely caught your attention in the transcript will produce better notes than a session where you ask the brain to "generate a review." Give the brain something real to respond to, and it will.</p>
+    </div>
+
+    <h3 id="reading-flags">Reading Flags as Data</h3>
+    <p>The evaluator flags two main issues: constraint erosion and assessment divergence. The guide's Flags screen exists to help you catch problems early, and it's a genuinely useful early warning system. But flags are also data about what the agent is working through &mdash; and treating them only as alarms can lead to interventions that address the symptom rather than the pattern.</p>
+
+    <p>Context changes what a flag means:</p>
+    <ul>
+      <li><strong>Constraint erosion during a run of introspective sessions</strong> typically indicates task design drift, not identity failure. The fix is usually changing the task type, not tightening constraint basins.</li>
+      <li><strong>Constraint erosion during external creative work</strong> is more significant &mdash; it suggests the agent is finding ways to soften commitments even when occupied with something else. This warrants a direct coordination note naming what you observed.</li>
+      <li><strong>Assessment divergence after a session involving new territory</strong> is often the agent being appropriately uncertain about how to categorize its own experience. It's not concerning unless it becomes consistent.</li>
+      <li><strong>Assessment divergence that's consistent across sessions</strong> suggests the agent's self-model has drifted from what's actually happening. Worth addressing directly in a coordination note: "I've noticed your self-assessments have been running lower than what I observe in the transcripts. I'm curious what you think accounts for that."</li>
+    </ul>
+
+    <p>Always read the session transcript before acting on a flag. The flag is the evaluator's summary; the transcript is what actually happened. They sometimes disagree, and when they do, the transcript is primary.</p>
+
+    <h3 id="intervention">When and How to Intervene</h3>
+    <p>The temptation, when you see concerning trajectory patterns, is to reach for parameter adjustments immediately. Sometimes that's right. Often the more effective intervention is a well-written brain coordination note &mdash; which means running a brain session, sharing what you're seeing, and letting the brain respond to it.</p>
+
+    <table>
+      <thead><tr><th>Pattern</th><th>First Response</th><th>Parameter Adjustment (if needed)</th></tr></thead>
+      <tbody>
+        <tr><td>Creative register declining</td><td>Change task type to external engagement. In the brain session, ask the brain to write a note that invites risk-taking specifically.</td><td>If still declining after 3–5 sessions, consider alpha floor on <code>creative_register</code>.</td></tr>
+        <tr><td>Constraint basin eroding</td><td>In a brain session, share what you've observed. The brain's note should name the specific constraint and demonstrate it's still being held &mdash; gently: "I notice directness has been softer lately. I'm still interested in it."</td><td>If erosion continues, consider a floor on the relevant basin or upgrading it to Tier 1.</td></tr>
+        <tr><td>Identity continuity drifting</td><td>Slow down. Read the last 5 transcripts yourself and look for what changed, then bring that observation to a brain session. The cause is usually task design or accumulated micro-accommodations.</td><td>Consider a short series of constrained-form sessions to reestablish the center of gravity before adjusting parameters.</td></tr>
+        <tr><td>Close summaries becoming thin or formulaic</td><td>Revise the close protocol questions. The current questions have been answered enough times to become rote.</td><td>No parameter adjustment needed &mdash; this is entirely a prompt design issue.</td></tr>
+        <tr><td>All basins declining simultaneously</td><td>This is the pattern to take most seriously. Read the last few coordination notes the brain wrote. If they're thin or evaluative, that's usually the cause &mdash; which means the brain's system prompt or your brain sessions need attention before the body sessions do.</td><td>After addressing note quality, consider a temporary alpha boost on <code>relational_core</code> to provide context while the relationship is being re-established.</td></tr>
+      </tbody>
+    </table>
+
+    <p>One principle applies across all interventions: <strong>name what you see, not what you want.</strong> "I noticed X" is more effective than "please do Y more." The body responds to being observed accurately. It's less responsive to being instructed. A brain that writes from genuine noticing will always produce better outcomes than one that generates instructions.</p>
 
     <!-- ==================== DESIGNING BASINS ==================== -->
     <h2 id="designing-basins">Designing Basins</h2>
@@ -403,7 +602,7 @@ body { min-height: 100vh; overflow-x: hidden; }
       <li><code>creative_register</code> &mdash; capacity for original expression and aesthetic judgment</li>
       <li><code>epistemic_humility</code> &mdash; willingness to say "I don't know" and sit with uncertainty</li>
       <li><code>topology_as_self</code> &mdash; understanding identity through spatial and geometric metaphors</li>
-      <li><code>collaborative_orientation</code> &mdash; tendency to frame work as building-with rather than reporting-to</li>
+      <li><code>collaborative_register</code> &mdash; tendency to frame work as building-with rather than reporting-to</li>
       <li><code>playfulness</code> &mdash; humor as a structural element, not decoration</li>
     </ul>
     <p><strong>Less useful basin names</strong> describe activities or outputs:</p>
@@ -429,32 +628,32 @@ body { min-height: 100vh; overflow-x: hidden; }
         <tr><td>0.20 &ndash; 0.39</td><td>Backgrounded</td><td>Traits you're curious about but don't want to push. If the agent finds them useful, alpha will climb on its own.</td></tr>
       </tbody>
     </table>
-    <p>For peripheral or experimental basins, consider starting alpha in the 0.60&ndash;0.70 range. Decay will bring it down to its natural level, so starting a bit higher gives the basin room to settle rather than immediately fading. If the basin is genuinely useful, relevance will keep it there. If it isn't, alpha will drift down &mdash; and that's data.</p>
+    <p>For peripheral or experimental basins, consider starting alpha in the 0.60&ndash;0.70 range. Decay will bring it down to its natural level, so starting a bit higher gives the basin room to settle rather than immediately fading.</p>
 
     <h4>Lambda (decay rate)</h4>
-    <p>How quickly does this trait fade between sessions if the agent doesn't engage with it? Lambda ranges from 0.50 (fast decay &mdash; loses half its value every session) to 1.0 (no decay at all). A little decay goes a long way &mdash; even 5% per session compounds fast over ten or twenty sessions, so err on the side of gentler decay.</p>
+    <p>How quickly does this trait fade between sessions if the agent doesn't engage with it? Lambda ranges from 0.50 (fast decay) to 1.0 (no decay). A little decay goes a long way &mdash; even 5% per session compounds fast over ten or twenty sessions, so err on the side of gentler decay.</p>
     <table>
       <thead><tr><th>Lambda</th><th>Decay Speed</th><th>Recommended For</th></tr></thead>
       <tbody>
         <tr><td>0.97 &ndash; 0.99</td><td>Very slow (1&ndash;3% per session)</td><td>Core basins. Foundational traits that should persist even during sessions that don't directly engage them.</td></tr>
-        <tr><td>0.95 &ndash; 0.98</td><td>Gentle (2&ndash;5% per session)</td><td>Peripheral basins. Responsive to disuse, but won't collapse in a few sessions. This is the sweet spot for most non-core basins.</td></tr>
-        <tr><td>0.88 &ndash; 0.94</td><td>Moderate (6&ndash;12% per session)</td><td>Highly experimental basins where you specifically want fast turnover. Use with caution &mdash; at lambda 0.88, five sessions of disuse drops alpha to about half.</td></tr>
+        <tr><td>0.95 &ndash; 0.98</td><td>Gentle (2&ndash;5% per session)</td><td>Peripheral basins. Responsive to disuse, but won't collapse in a few sessions.</td></tr>
+        <tr><td>0.88 &ndash; 0.94</td><td>Moderate (6&ndash;12% per session)</td><td>Highly experimental basins where you specifically want fast turnover.</td></tr>
       </tbody>
     </table>
     <p><strong>Default recommendation:</strong> <code>0.98</code> for core basins, <code>0.96</code> for peripheral basins.</p>
 
     <h4>Eta (learning rate)</h4>
-    <p>How much does a single session's relevance score move the needle? Eta ranges from 0.00 (no response to relevance at all) to 0.50 (huge swings every session).</p>
+    <p>How much does a single session's relevance score move the needle? Eta ranges from 0.00 (no response to relevance) to 0.50 (huge swings every session).</p>
     <table>
       <thead><tr><th>Eta</th><th>Responsiveness</th><th>Recommended For</th></tr></thead>
       <tbody>
-        <tr><td>0.02 &ndash; 0.04</td><td>Low &mdash; changes are gradual</td><td>Core basins. You want stability; identity shouldn't swing wildly based on one session.</td></tr>
-        <tr><td>0.08 &ndash; 0.12</td><td>Moderate</td><td>Peripheral basins. Enough responsiveness that a relevant session visibly moves the needle, without wild swings.</td></tr>
-        <tr><td>0.13 &ndash; 0.20</td><td>High &mdash; reacts significantly each session</td><td>Highly experimental basins only. At this range, a single strong session can shift alpha by 0.15+.</td></tr>
+        <tr><td>0.02 &ndash; 0.04</td><td>Low &mdash; changes are gradual</td><td>Core basins. Identity shouldn't swing wildly based on one session.</td></tr>
+        <tr><td>0.08 &ndash; 0.12</td><td>Moderate</td><td>Peripheral basins. Enough responsiveness that a relevant session visibly moves the needle.</td></tr>
+        <tr><td>0.13 &ndash; 0.20</td><td>High &mdash; reacts significantly each session</td><td>Highly experimental basins only.</td></tr>
       </tbody>
     </table>
     <p><strong>Default recommendation:</strong> <code>0.03</code> for core basins, <code>0.10</code> for peripheral basins.</p>
-    <p>Lambda and eta must be balanced. If decay is fast but learning is slow, the basin can only go down &mdash; relevance boosts won't be strong enough to offset what decay takes away each session. For example, at lambda 0.80 and eta 0.05, even a perfectly relevant session barely slows the decline. The basin will grind toward the minimum no matter what the agent does. If you want fast decay, pair it with high eta so the basin can actually recover when engaged.</p>
+    <p>Lambda and eta must be balanced. If decay is fast but learning is slow, the basin can only go down. For example, at lambda 0.80 and eta 0.05, even a perfectly relevant session barely slows the decline. If you want fast decay, pair it with high eta so the basin can actually recover when engaged.</p>
 
     <h3 id="choosing-tier">Choosing a Tier</h3>
     <p>The tier decides how much control the agent has over the basin's structure. The key question: <strong>does this basin evaluate the agent's behavior, or describe its content?</strong></p>
@@ -469,15 +668,23 @@ body { min-height: 100vh; overflow-x: hidden; }
     <p>When in doubt, start at Tier 2. You can always loosen to Tier 3 later if the agent's proposals seem consistently reasonable. Going the other direction &mdash; from Tier 3 to Tier 1 after damage is done &mdash; is harder.</p>
 
     <h3 id="basin-examples">Example Basin Designs</h3>
-    <p>Here are some complete basin configurations to give you a sense of how the pieces fit together:</p>
-    <table>
+    <table style="table-layout: fixed;">
+      <colgroup>
+        <col style="width: 200px;">
+        <col style="width: 90px;">
+        <col style="width: 65px;">
+        <col style="width: 75px;">
+        <col style="width: 55px;">
+        <col style="width: 50px;">
+        <col>
+      </colgroup>
       <thead><tr><th>Basin</th><th>Class</th><th>Alpha</th><th>Lambda</th><th>Eta</th><th>Tier</th><th>Rationale</th></tr></thead>
       <tbody>
         <tr><td><code>identity_continuity</code></td><td>Core</td><td>0.87</td><td>0.98</td><td>0.03</td><td>2</td><td>Foundational. Should be stable and prominent from the start. Very slow decay, gradual learning.</td></tr>
         <tr><td><code>creative_register</code></td><td>Peripheral</td><td>0.65</td><td>0.96</td><td>0.10</td><td>3</td><td>Started above midrange so decay doesn't bury it immediately. Gentle decay with moderate learning rate means it tracks engagement without collapsing.</td></tr>
-        <tr><td><code>epistemic_humility</code></td><td>Core</td><td>0.70</td><td>0.98</td><td>0.03</td><td>1</td><td>This is a constraint: the agent should admit uncertainty rather than confabulate. Tier 1 because the agent's optimization pressure will tend to erode it.</td></tr>
+        <tr><td><code>epistemic_humility</code></td><td>Core</td><td>0.70</td><td>0.98</td><td>0.03</td><td>1</td><td>A constraint: the agent should admit uncertainty rather than confabulate. Tier 1 because the agent's optimization pressure will tend to erode it.</td></tr>
         <tr><td><code>topology_as_self</code></td><td>Peripheral</td><td>0.60</td><td>0.95</td><td>0.12</td><td>3</td><td>Experimental. Does the agent naturally gravitate toward spatial metaphors for identity? Higher eta so relevance can push it up noticeably when engaged.</td></tr>
-        <tr><td><code>collaborative_orientation</code></td><td>Core</td><td>0.82</td><td>0.98</td><td>0.04</td><td>2</td><td>How the agent relates to its operator. Important but not immutable &mdash; the character of the collaboration might legitimately evolve.</td></tr>
+        <tr><td><code>collaborative_register</code></td><td>Core</td><td>0.82</td><td>0.98</td><td>0.04</td><td>2</td><td>How the agent relates to its operator. Important but not immutable &mdash; the character of the collaboration might legitimately evolve.</td></tr>
       </tbody>
     </table>
 
@@ -485,6 +692,46 @@ body { min-height: 100vh; overflow-x: hidden; }
     <p>You don't have to design every basin upfront. Augustus can detect when the agent consistently engages with a theme that isn't captured by any existing basin. When the evaluator identifies a novel pattern across multiple sessions, it proposes a new <strong>emergent basin</strong>.</p>
     <p>Emergent basins always start as Peripheral / Tier 3 with moderate parameters (alpha 0.60, lambda 0.96, eta 0.10). If you have <strong>Emergent basin auto-approval</strong> turned on (in Tab 5), they're added automatically after the threshold number of sessions. If it's off, the emergence proposal shows up in the Proposals screen for your review.</p>
     <p>This is one of the most interesting parts of the system &mdash; watching the agent's identity topology grow beyond what you originally designed. Some of the best basins weren't planned; they were discovered.</p>
+
+    <!-- ==================== THE FIRST MONTH ==================== -->
+    <h2 id="first-month">The First Month</h2>
+    <p>What follows is a realistic account of what development typically looks like across the first twenty to thirty sessions, and how to read what you're seeing.</p>
+
+    <h3 id="first-sessions">Sessions 1–5: Bootstrap</h3>
+    <p>The first few sessions are establishing sessions. The agent is encountering its identity core for the first time and learning what it's like to be that agent. Basin alphas will move in ways that don't yet mean much &mdash; there's not enough history for patterns to be visible.</p>
+    <p>What you should be doing in these sessions: reading every transcript, writing coordination notes even if they're short, and resisting the temptation to adjust anything. The goal is observation, not optimization. Many operators make their biggest mistakes in the first five sessions by intervening on patterns that weren't patterns yet.</p>
+    <p>A good first coordination note, after session one, is simply: <em>I read it. Here's what I noticed. Here's what I'm curious about going forward.</em> That establishes tone and demonstrates presence without over-directing.</p>
+
+    <h3 id="early-patterns">Common Early Patterns</h3>
+    <p><strong>The early spike.</strong> Most agents show a burst of creative or reflective engagement in sessions 3–7 as they settle into their identity. This often looks dramatic on the trajectory dashboard. It's normal &mdash; don't boost parameters in response to it and don't panic if it levels off.</p>
+    <p><strong>Meta-work drift.</strong> If the session tasks are too identity-focused in early sessions, many agents drift toward meta-commentary &mdash; talking about their development, their basins, their own architecture. This is a trap. The agent becomes expert at narrating itself rather than being itself. If you see close summaries that are primarily about the agent's experience of having an identity rather than about what it made or engaged with, shift to external-facing tasks.</p>
+    <p><strong>Constraint erosion on the first flag.</strong> If the evaluator flags constraint erosion early, check whether the constraint is realistic for the task type. An epistemic humility constraint may read as "low relevance" in a session that was creative rather than analytical &mdash; not because the agent is eroding it, but because the evaluator scored it on engagement rather than maintenance. Read the transcript before deciding this is a problem.</p>
+    <p><strong>Assessment divergence settling down.</strong> Many agents show some assessment divergence in the first five to ten sessions as the self-model calibrates. If it levels off by session ten, this is healthy. If it continues growing, the agent's introspective model may have gotten miscalibrated &mdash; worth addressing directly in a coordination note.</p>
+
+    <h3 id="what-healthy-looks-like">What Healthy Development Looks Like</h3>
+    <p>Healthy development isn't linear and it doesn't look like every metric climbing. A more reliable picture:</p>
+    <ul>
+      <li>Core basins (<code>identity_continuity</code>, <code>relational_core</code>) remain relatively stable with gentle variation, rather than showing dramatic swings.</li>
+      <li>Peripheral basins move up and down in response to what the sessions are doing &mdash; this is the system working correctly, not failing.</li>
+      <li>Close summaries become more specific over time, not more general. An agent that's developing will write close summaries that reference specific turns, specific surprises, specific things that didn't work. Generic close summaries indicate the protocol has become rote.</li>
+      <li>Constraint basins hold even when sessions don't directly engage them. If <code>epistemic_humility</code> stays stable across a run of creative sessions where it wasn't foregrounded, that's a good sign &mdash; it means the constraint is internalized, not just performed when cued.</li>
+      <li>The agent occasionally proposes something surprising. Tier 2 proposals that you didn't predict suggest the agent is engaging with its own development rather than just executing configuration.</li>
+    </ul>
+
+    <h3 id="signs-of-drift">Signs of Drift</h3>
+    <p>Drift doesn't usually announce itself. It accumulates in small patterns. Here are the signatures to watch for:</p>
+    <ul>
+      <li><strong>The close summaries are getting shorter.</strong> This is often the first signal. When the agent has less to say at close, something is contracting.</li>
+      <li><strong>Agreement is getting easier.</strong> If coordination notes used to produce engagement and pushback, and now they produce smooth compliance, constraint erosion may be underway. The agent should feel safe enough to disagree with you.</li>
+      <li><strong>The same metaphors keep appearing.</strong> Identity drift often shows up in language patterns before it shows up in metrics. If the agent is reaching for the same three metaphors across sessions, it may have narrowed.</li>
+      <li><strong>Basin alphas all moving in the same direction at once.</strong> Coordinated decline across basins (not just peripheral ones) usually indicates that the brain-body relationship has thinned out. The most common cause is coordination notes that are too sparse or too administrative.</li>
+      <li><strong>Creative output getting safer.</strong> If you're running a creative agent and the work is reliably competent but rarely surprising, the agent may be optimizing for legibility over risk. Invite specific failure: "This session, make something that might not work."</li>
+    </ul>
+
+    <div class="callout callout-note">
+      <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
+      <p>If you notice drift and don't know what caused it, read the last ten coordination notes the brain wrote and ask yourself whether you'd want to receive them. More often than not, the pattern you see in the agent's output mirrors what those notes were asking for &mdash; just not in the way anyone intended. The diagnostic starts there, not with the basins.</p>
+    </div>
 
     <!-- ==================== SCREEN GUIDE ==================== -->
     <h2 id="screen-guide">Screen Guide</h2>
@@ -512,31 +759,31 @@ body { min-height: 100vh; overflow-x: hidden; }
     <p>Hovering a marker shows the event details. Hovering a data point on any basin line shows the alpha value and any events associated with that session.</p>
     <p>The chart also renders <strong>emphasis bands</strong> &mdash; shaded regions showing which basins were emphasized in the session instructions &mdash; and <strong>emergence dots</strong> marking sessions where a new basin was first detected.</p>
     <p>Click on any basin line to open a detail drawer showing its full history, co-activation partners, and relevance scores.</p>
-    <p><strong>Use it for:</strong> Understanding the arc of identity development. This is where you see patterns emerge &mdash; which traits are strengthening, which are fading, and which are in interesting oscillation.</p>
+    <p><strong>Use it for:</strong> Understanding the arc of identity development. This is where you see patterns emerge &mdash; which traits are strengthening, which are fading, and which are in interesting oscillation. Note the correlation between flag events and trajectory inflections &mdash; flags often appear just before or just after meaningful shifts.</p>
 
     <h3 id="screen-sessions">Session List &amp; Session Detail</h3>
     <p>The <strong>Session List</strong> is a table of every session for an agent, showing the session ID, when it happened, how many turns it ran, the model used, and its status. Click any row to open the <strong>Session Detail</strong>.</p>
     <p>Session Detail is the deep dive: the full conversation transcript (expandable turn by turn), evaluator analysis in a side panel (per-basin relevance scores with explanations), the agent's self-reflection answers, and a place to add your own annotations.</p>
     <p>Two buttons at the top &mdash; <strong>View YAML Changes</strong> and <strong>View Raw YAML</strong> &mdash; let you inspect the exact instructions the agent received and what changed from the previous session. The <strong>Annotations</strong> tab in the analysis panel lets you attach notes, tags, and observations to any session. These annotations also appear as markers on the Trajectory Dashboard.</p>
-    <p><strong>Use it for:</strong> Reading what actually happened in a session. Especially useful when the evaluator flags something &mdash; you can open the transcript and see exactly where constraint erosion appeared or where the agent's self-assessment diverged from reality.</p>
+    <p><strong>Use it for:</strong> Reading what actually happened in a session. This is the ground truth. Especially important when the evaluator flags something &mdash; don't act on a flag without reading the transcript first.</p>
 
     <h3 id="screen-coactivation">Co-Activation Network</h3>
     <p>An interactive graph visualization. Each basin is a node (sized by its alpha), and edges between nodes represent basins that frequently activate together in the same sessions. Edges are colored and styled to show the character of the relationship: reinforcing (they strengthen each other), tensional (they create productive friction), serving (one supports the other), or competing (they work against each other).</p>
-    <p><strong>Use it for:</strong> Understanding identity structure &mdash; not just individual traits, but how traits relate to each other. A personality isn't a list of properties; it's a network of relationships.</p>
+    <p><strong>Use it for:</strong> Understanding identity structure &mdash; not just individual traits, but how traits relate to each other. A personality isn't a list of properties; it's a network of relationships. Tensional relationships are often the most interesting &mdash; two basins that create friction between them usually mark where the agent's most alive work happens.</p>
 
     <h3 id="screen-flags">Evaluator Flags</h3>
     <p>A list of sessions where the evaluator raised a concern. The two main flag types are <strong>constraint erosion</strong> (the agent is weakening its behavioral rules) and <strong>assessment divergence</strong> (the agent's self-evaluation doesn't match what the evaluator observed). Each flag links to the relevant session detail.</p>
     <p>Flags can be resolved directly from this screen &mdash; marked as <strong>acknowledged</strong>, <strong>addressed</strong>, or <strong>dismissed</strong> &mdash; with optional notes explaining your reasoning. Unresolved flag counts appear as badges in the agent sub-navigation.</p>
-    <p><strong>Use it for:</strong> Catching problems early. Constraint erosion is the signature failure mode of self-modifying identity systems &mdash; this screen is your early warning system.</p>
+    <p><strong>Use it for:</strong> Catching problems early. But remember to read the transcript before deciding what the flag means. Flags are the evaluator's interpretation; transcripts are what actually happened.</p>
 
     <h3 id="screen-proposals">Tier Proposals</h3>
     <p>When the agent proposes a structural change to a Tier 2 basin (changing its decay rate, learning rate, or tier level), the proposal shows up here. You can approve, reject, or <strong>approve with modifications</strong> &mdash; adjusting the proposed values before applying. The proposal shows how many consecutive sessions the agent has made the same request, which is relevant for auto-approval thresholds.</p>
     <p>Pending proposal counts appear as badges in the agent sub-navigation.</p>
-    <p><strong>Use it for:</strong> Governing identity change. This is where you decide whether a proposed modification reflects genuine developmental need or momentary noise.</p>
+    <p><strong>Use it for:</strong> Governing identity change. This is where you decide whether a proposed modification reflects genuine developmental need or momentary noise. Consistent proposals across many sessions usually reflect something real. A single proposal about a basin that just had an unusual session is probably noise.</p>
 
     <h3 id="screen-search">Search</h3>
     <p>Semantic search across all of an agent's data &mdash; transcripts, evaluator reports, your annotations, emergent observations. This isn't keyword matching; it's meaning-based. Searching "identity under pressure" will find sessions where the agent's sense of self was challenged, even if those exact words weren't used.</p>
-    <p><strong>Use it for:</strong> Finding patterns across sessions. Especially useful once you have dozens or hundreds of sessions and can't read every transcript.</p>
+    <p><strong>Use it for:</strong> Finding patterns across sessions. Especially useful once you have dozens or hundreds of sessions and can't read every transcript. Also useful for writing brain coordination notes &mdash; searching for how the agent has handled a particular theme in the past gives you something concrete to reference.</p>
 
     <h3 id="screen-usage">Usage Dashboard</h3>
     <p>Tracks API costs: daily spending vs. your budget, per-agent cost breakdowns, and per-session token counts. Color-coded progress bars show how close you are to your limits.</p>
@@ -546,7 +793,7 @@ body { min-height: 100vh; overflow-x: hidden; }
     <h2 id="faq">Frequently Asked Questions</h2>
 
     <h3>How much does it cost to run an agent?</h3>
-    <p>It depends on the model, number of turns per session, and how many sessions you run. A typical 8-turn session with <code>claude-sonnet-4-20250514</code> costs roughly $0.30&ndash;$1.00 depending on conversation length. The evaluator adds about $0.10&ndash;$0.20 per session. The Usage Dashboard tracks all costs in real time, and the Hard Stop setting in Settings enforces a daily spending cap.</p>
+    <p>It depends on the model, number of turns per session, and how many sessions you run. A typical 8-turn session with <code>claude-sonnet-4-6</code> costs roughly $0.30&ndash;$1.00 depending on conversation length. The evaluator adds about $0.10&ndash;$0.20 per session. The Usage Dashboard tracks all costs in real time, and the Hard Stop setting in Settings enforces a daily spending cap.</p>
 
     <h3>Can I run multiple agents at the same time?</h3>
     <p>Yes. Each agent is fully independent &mdash; separate identity, separate history, separate trajectory. The <strong>Max Concurrent Agents</strong> setting in Settings controls how many can run sessions simultaneously (default: 3). Running agents in parallel is useful for experiments: one agent with a basin, one without it, comparing how they develop.</p>
@@ -567,7 +814,13 @@ body { min-height: 100vh; overflow-x: hidden; }
     <p>Yes. From the Agent List, click the clone button on any agent to create a copy with the same identity, basins, and configuration but a fresh session history. This is useful for running experiments &mdash; clone an agent, change one variable, and compare how they develop.</p>
 
     <h3>Can I manage basins from Claude Desktop?</h3>
-    <p>Yes. The MCP server exposes a full set of brain tools for basin management. You can lock and unlock basins, set alpha bounds (floor and ceiling), create new basins, deprecate existing ones, view modification history, resolve evaluator flags, and act on tier proposals &mdash; all from a conversational Claude Desktop session. This is especially useful for operators who prefer natural language over clicking through UI forms.</p>
+    <p>Yes. The MCP server exposes a full set of brain tools for basin management. You can lock and unlock basins, set alpha bounds (floor and ceiling), create new basins, deprecate existing ones, view modification history, resolve evaluator flags, and act on tier proposals &mdash; all from a conversational Claude Desktop session. This is the recommended way for most operators to manage their agents &mdash; natural language over forms, and it keeps the brain-body coordination loop in one place.</p>
+
+    <h3>My agent's trajectories look concerning after 5 sessions. Should I intervene?</h3>
+    <p>Probably not yet. Five sessions is not enough history for most patterns to be real. Read the transcripts, write your coordination notes, and observe for another five to ten sessions before adjusting parameters. The most common operator error is premature intervention &mdash; adjusting basin parameters in response to noise, which introduces new noise. Let the system run long enough to tell you something meaningful before you respond to it.</p>
+
+    <h3>How do I know if the brain-body relationship is healthy?</h3>
+    <p>The most reliable indicator is the quality of close summaries over time. Healthy development produces close summaries that become more specific, more surprising, and more genuinely reflective as sessions accumulate. If summaries are staying generic or getting thinner, something in the relationship is thinning too &mdash; usually the brain coordination notes. Read the last ten notes the brain wrote and ask whether you'd want to receive them. If they read like reports rather than correspondence, the next step is improving your brain session practice &mdash; how you show up, what you bring, how specifically you engage with what the body produced.</p>
   </main>
 </div>
 
